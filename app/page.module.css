@@ -1,0 +1,43 @@
+.background {
+  background-image: url("/assets/pics/mainpageimage/1.png");
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  position: static;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+.showMoreProperties {
+  padding: 20px 30px;
+  border-radius: 15px;
+  background-color: #557b97;
+  color: #e5ecf3;
+  font-size: 16px;
+  text-align: center;
+  margin: 150px auto;
+  font-weight: bold;
+  display: block;
+  cursor: pointer;
+  transition: ease 0.3s;
+  box-shadow: 0px 10px 25px 0px rgb(0, 0, 0, 0.15);
+}
+.showMoreProperties:hover {
+  background-color: #456883;
+}
+@media (max-width: 768px) {
+  .showMoreProperties {
+    padding: 10px 25px;
+    font-size: 14px;
+  }
+}

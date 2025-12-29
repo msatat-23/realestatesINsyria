@@ -1,0 +1,10 @@
+.container {
+  margin: auto;
+  width: calc(100% - 192px);
+}
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  width: fit-content;
+  margin: 80px auto 40px auto;
+}

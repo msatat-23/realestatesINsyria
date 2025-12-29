@@ -1,0 +1,46 @@
+import classes from "./page.module.css";
+import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
+import SideBar from "@/components/dashboard-components/sidebar";
+import { redirect } from "next/navigation";
+import UsersClient from "@/components/dashboard-components/users";
+
+
+const Users = async () => {
+    const session = await auth();
+    const role = session?.user?.role;
+    if (role === "USER") {
+        redirect("/");
+    };
+
+    const isSuperAdmin = role === "SUPERADMIN";
+
+    const users = isSuperAdmin ?
+        await prisma.user.findMany({
+            select: {
+                id: true,
+                username: true,
+                role: true,
+                createdAt: true,
+                _count: { select: { properties: true } }
+            }
+        }) :
+        await prisma.user.findMany({
+            where: {
+                role: "USER"
+            },
+            select: {
+                id: true,
+                username: true,
+                role: true,
+                createdAt: true,
+                _count: { select: { properties: true } },
+            }
+        });
+
+    return <div className={classes.dashboard}>
+        <SideBar />
+        <UsersClient users={users} />
+    </div>
+};
+export default Users;

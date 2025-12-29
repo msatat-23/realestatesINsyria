@@ -1,0 +1,117 @@
+.container {
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px 0 #00000016;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+.imageWrapper {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.img {
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+}
+.img:hover {
+  transform: scale(1.2);
+}
+.imageSpinner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: #00000076;
+}
+.imageSpinner::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid #557b97;
+  border-bottom-color: transparent;
+  animation: spinOverlay 1s infinite ease-in-out;
+}
+@keyframes spinOverlay {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.info {
+  width: 260px;
+  padding: 20px 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: "Tajawal";
+}
+.buttons {
+  padding: 20px 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: "Tajawal";
+}
+.viewBtn {
+  width: 140px;
+  height: 46px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.viewBtn:hover {
+  background-color: #28618a;
+}
+.saveBtn {
+  width: 100px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+.saveBtn:hover {
+  background-color: #28618a;
+}
+.saveBtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}

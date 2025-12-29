@@ -1,0 +1,46 @@
+.container {
+  width: 40%;
+  height: 100%;
+  padding-top: 40px;
+  color: #252525;
+}
+.weight {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+.description {
+  font-size: 16px;
+}
+
+@media (max-width: 1320px) {
+  .container {
+    padding-top: 30px;
+  }
+  .weight {
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+}
+@media (max-width: 1068px) {
+  .container {
+    padding-top: 20px;
+  }
+  .weight {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .description {
+    font-size: 14px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    align-self: flex-start;
+    width: 80%;
+    margin-right: 5%;
+  }
+  .weight {
+    font-size: 16px;
+  }
+}

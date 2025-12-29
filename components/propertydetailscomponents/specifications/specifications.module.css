@@ -1,0 +1,76 @@
+.container {
+  width: 45%;
+}
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+.table {
+  width: 100%;
+  margin: 20px 0;
+  text-align: center;
+  color: #2a2a2a;
+  background-color: #f4f8fb;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.table tr:nth-child(even) {
+  background-color: #e1ecf4;
+}
+
+.table tr:nth-child(odd) {
+  background-color: #f9fcff;
+}
+
+.table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #a6c6dd;
+  font-size: 16px;
+}
+
+.table td:first-child {
+  font-weight: bold;
+  background-color: #d6e6f5;
+  color: #0d3a5f;
+}
+@media (max-width: 1320px) {
+  .container {
+    width: 48%;
+  }
+}
+@media (max-width: 1220px) {
+  .container {
+    width: 52%;
+  }
+}
+@media (max-width: 1068px) {
+  .container {
+    width: 60%;
+  }
+}
+@media (max-width: 948px) {
+  .container {
+    width: 62%;
+  }
+}
+@media (max-width: 848px) {
+  .container {
+    width: 64%;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+  .table td {
+    font-size: 14px;
+  }
+  .header {
+    font-size: 16px;
+    margin-right: 5%;
+  }
+}

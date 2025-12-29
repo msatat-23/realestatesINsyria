@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
+.dashboard {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 100px;
+}
+@media (max-width: 940px) {
+  .dashboard {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+}

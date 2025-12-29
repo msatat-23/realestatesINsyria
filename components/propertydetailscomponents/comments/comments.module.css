@@ -1,0 +1,191 @@
+.commentsSection {
+  margin: 50px auto;
+  width: calc(100% - 192px);
+  max-width: 800px;
+  background-color: #f4f8fb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.commentsSection h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.button {
+  align-self: flex-start;
+  background-color: #557b97;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.block {
+  display: block;
+}
+
+.button:hover {
+  background-color: #456883;
+}
+
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.comment {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #dbe5ee;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.commentName {
+  font-weight: bold;
+}
+.commentTextContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.commentText {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.noComments {
+  color: #999;
+  text-align: center;
+}
+.ratingForm {
+  width: 100%;
+}
+.ratingsection {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+.ratingFix svg {
+  display: inline-block !important;
+}
+
+.ratingRow {
+  display: inline-flex !important;
+  flex-direction: row !important;
+}
+.rating {
+  font-size: 24px;
+  font-weight: bold;
+  color: #252525;
+  border: 5px #456883 dashed;
+  padding: 3px 12px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #e5e7eb;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #93c5fd;
+  border-top: 6px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  .commentsSection {
+    width: 90%;
+    padding: 16px;
+  }
+
+  .commentsSection h2 {
+    font-size: 20px;
+  }
+
+  .input,
+  .textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .commentText {
+    font-size: 14px;
+  }
+
+  .commentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

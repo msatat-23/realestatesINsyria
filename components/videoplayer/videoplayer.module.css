@@ -1,0 +1,21 @@
+.customVideoWrapper {
+  position: relative;
+  width: 80%;
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 2rem auto;
+  aspect-ratio: 16 / 9;
+}
+
+.customVideoWrapper :global(.plyr) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px;
+}
+
+.customVideoWrapper :global(.plyr__controls) {
+  background: rgba(0, 0, 0, 0.5);
+}

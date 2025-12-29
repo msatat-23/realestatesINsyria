@@ -1,0 +1,136 @@
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background-color: #aac0d8;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 40px 10px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transition: all 0.3s ease-in-out;
+}
+.sidebar div {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.section_link {
+  padding: 15px 20px;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+  border-bottom: 5px solid #557b97;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.section_link:hover {
+  background-color: #e0e7ef;
+  font-weight: bold;
+  color: #000;
+  border-right: 4px solid #007bff;
+}
+
+.section_link.active {
+  background-color: #e0e7ef;
+  font-weight: bold;
+  border-right: 4px solid #007bff;
+}
+.exit {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+.hide {
+  width: 60px;
+}
+.hideelement {
+  display: none;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 40px;
+  cursor: pointer;
+}
+@media (max-width: 1280px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+@media (max-width: 940px) {
+  .sidebar {
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+  }
+  .sidebar div {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+  }
+  .section_link {
+    padding: 15px 20px;
+    font-size: 14px;
+    width: fit-content;
+    border-bottom: none;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+@media (max-width: 860px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding-top: 0;
+  }
+  .arrow {
+    display: none;
+  }
+  .exit {
+    display: none;
+  }
+  .sidebar div {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .section_link {
+    text-align: center;
+    border-right: none;
+    border-bottom: 2px solid transparent;
+    font-size: 12px;
+    padding: 15px 0;
+  }
+
+  .section_link:hover,
+  .section_link.active {
+    border-bottom: 2px solid #007bff;
+    background-color: transparent;
+  }
+}
+@media screen and (max-width: 500px) {
+  .section_link {
+    font-size: 12px;
+  }
+}

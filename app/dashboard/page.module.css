@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
+.dashboard {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 100px;
+}
+.statistics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  row-gap: 20px;
+  width: 70%;
+  padding: 20px 20px 200px 20px;
+}
+.card {
+  width: 250px;
+  height: 150px;
+  border-radius: 16px;
+  border: 1px solid gray;
+  transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  color: #252525;
+  font-family: "Tajawal", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.card:hover {
+  transform: translate(-2px, -2px);
+}
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #557b97;
+}
+.count {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d32f2f;
+}
+@media (max-width: 940px) {
+  .dashboard {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .statistics {
+    width: 100%;
+  }
+}

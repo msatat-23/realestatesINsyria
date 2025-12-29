@@ -1,0 +1,131 @@
+.sidebar {
+  width: 290px;
+  height: 100vh;
+  background-color: #f2f4f7;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
+  z-index: 10;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.sidebar ul li {
+  padding: 15px 20px;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid rgb(181, 181, 181);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.sidebar ul li:hover {
+  background-color: #e0e7ef;
+  font-weight: bold;
+  color: #000;
+  border-right: 4px solid #007bff;
+}
+
+.sidebar ul li.active {
+  background-color: #d4e3f5;
+  font-weight: bold;
+  border-right: 4px solid #007bff;
+}
+.exit {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+.hide {
+  width: 60px;
+}
+.hideelement {
+  display: none;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 40px;
+  cursor: pointer;
+}
+@media (max-width: 1280px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+@media (max-width: 940px) {
+  .sidebar {
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+  }
+  .sidebar ul {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+  }
+  .sidebar ul li {
+    padding: 15px 20px;
+    font-size: 14px;
+    width: fit-content;
+    border-bottom: none;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+@media (max-width: 860px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding-top: 0;
+  }
+  .arrow {
+    display: none;
+  }
+  .exit {
+    display: none;
+  }
+  .sidebar ul {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .sidebar ul li {
+    text-align: center;
+    border-right: none;
+    border-bottom: 2px solid transparent;
+    font-size: 12px;
+    padding: 15px 0;
+  }
+
+  .sidebar ul li:hover,
+  .sidebar ul li.active {
+    border-bottom: 2px solid #007bff;
+    background-color: transparent;
+  }
+}
+@media screen and (max-width: 500px) {
+  .sidebar ul li {
+    font-size: 12px;
+  }
+}

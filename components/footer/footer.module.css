@@ -1,0 +1,134 @@
+.footer {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  gap: 250px;
+  background-color: #557b97;
+  color: #e5ecf3;
+  padding: 40px 64px;
+  font-size: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.center {
+  align-items: center;
+}
+.self {
+  align-self: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+.left {
+  align-items: flex-end;
+}
+.logoinfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logoinfo .img {
+  width: 42px;
+  height: 42px;
+  background-color: transparent;
+}
+.img {
+  width: 230.4px;
+  height: 46.8px;
+  background-color: #90001d53;
+  border-radius: 3px;
+}
+.clickable {
+  cursor: pointer;
+}
+.centera {
+  text-align: center;
+  display: block;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+.social {
+  width: 32px;
+  height: 32px;
+}
+.socials {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.link {
+  cursor: pointer;
+}
+@media (max-width: 1300px) {
+  .footer {
+    gap: 130px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .footer {
+    font-size: 12px;
+    gap: 50px;
+  }
+  .self {
+    font-size: 16px;
+  }
+  .logoinfo {
+    gap: 10px;
+  }
+  .logoinfo .img {
+    width: 33.6px;
+    height: 33.6px;
+    background-color: transparent;
+  }
+  .img {
+    width: 184.48px;
+    height: 37.44px;
+  }
+  .centera {
+    font-size: 12px;
+  }
+  .social {
+    width: 25.6px;
+    height: 25.6px;
+  }
+}
+@media (max-width: 768px) {
+  .footer {
+    font-size: 10px;
+    gap: 20px;
+    padding: 16px 14px;
+  }
+  .self {
+    font-size: 12px;
+  }
+  .logoinfo {
+    gap: 7px;
+  }
+  .logoinfo .img {
+    width: 28px;
+    height: 28px;
+    background-color: transparent;
+  }
+  .img {
+    width: 149.4288px;
+    height: 30.3264px;
+  }
+  .centera {
+    font-size: 10px;
+  }
+  .social {
+    width: 25.6px;
+    height: 25.6px;
+  }
+  .stretch {
+    flex-direction: row;
+    justify-content: center;
+    gap: 80px;
+  }
+}

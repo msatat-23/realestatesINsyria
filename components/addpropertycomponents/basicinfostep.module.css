@@ -1,0 +1,342 @@
+.container {
+  width: calc(100% - 200px);
+  display: flex;
+  margin: 32px auto 10px auto;
+  margin-bottom: 0;
+  justify-content: space-between;
+}
+.basicinfocontainer {
+  width: 847px;
+  height: fit-content;
+  border-radius: 12px;
+  box-shadow: 0px 4px 24px 0px rgb(63, 61, 41, 0.15);
+  background: linear-gradient(to bottom right, #ffffff, #f9f6f0);
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  font-size: 16px;
+  margin-bottom: 32px;
+  color: #252525;
+}
+.common {
+  padding: 16px 22px;
+  border-radius: 5px;
+  background: linear-gradient(to bottom right, #ffffff, #f6f3ed);
+  border: 1px #666666 solid;
+  direction: rtl;
+  outline: none;
+}
+/* .common:focus {
+  background: linear-gradient(to bottom right, #ffffff, #f9f6f0);
+} */
+.input {
+  width: 561px;
+}
+.input::placeholder {
+  color: #49454f;
+}
+.textarea {
+  width: 799px;
+  height: 180px;
+}
+.textarea::placeholder {
+  color: #49454f;
+}
+.wideselect {
+  width: 622px;
+
+  padding: 0;
+}
+.narrowselect {
+  width: 343px;
+
+  padding: 0;
+}
+.pair {
+  display: flex;
+  gap: 36px;
+}
+.smallinput {
+  width: 321px;
+}
+.smallinput::placeholder {
+  color: #49454f;
+}
+.contactlabel {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  display: block;
+
+  margin: 10px 5px 30px 0px;
+}
+.contacttextarea {
+  width: 561px;
+  height: 134px;
+  direction: ltr;
+  text-align: right;
+}
+.contacttextarea::placeholder {
+  color: #49454f;
+}
+.pic {
+  background-image: url("/assets/pics/addpropertypic/1.png");
+  width: 449px;
+  height: 1560px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0px 4px 24px 0px rgb(63, 61, 41, 0.15);
+  border-radius: 5px;
+}
+.inputerror {
+  border: 2px solid #90001d !important;
+  background-color: #ffe6e6;
+}
+.inputerror::placeholder {
+  color: #90001d;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.field label {
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 1%;
+}
+.inputwrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.unit {
+  position: absolute;
+  right: 10px;
+  color: #252525;
+  font-size: 14px;
+  font-weight: bold;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #e5e7eb;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #93c5fd;
+  border-top: 6px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media (min-width: 1440px) and (max-width: 1529px) {
+  .pic {
+    width: 350px;
+  }
+}
+@media (min-width: 1300px) and (max-width: 1439px) {
+  .pic {
+    width: 250px;
+  }
+  .basicinfocontainer {
+    width: 762.3px;
+  }
+  .input {
+    width: 504.9px;
+  }
+  .textarea {
+    width: 719.1px;
+  }
+  .wideselect {
+    width: 559.8px;
+  }
+  .narrowselect {
+    width: 308.7px;
+  }
+  .pair {
+    gap: 32.4px;
+  }
+  .smallinput {
+    width: 288.9px;
+  }
+  .contacttextarea {
+    width: 504.9px;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1299px) {
+  .container {
+    width: calc(100% - 100px);
+  }
+  .pic {
+    width: 175px;
+  }
+  .basicinfocontainer {
+    width: 719.95px;
+  }
+  .input {
+    width: 476.85px;
+  }
+  .textarea {
+    width: 679.15px;
+  }
+  .wideselect {
+    width: 528.7x;
+  }
+  .narrowselect {
+    width: 291.55px;
+  }
+  .pair {
+    gap: 30.6px;
+  }
+  .smallinput {
+    width: 272.85px;
+  }
+  .contacttextarea {
+    width: 476.85px;
+  }
+}
+
+@media (min-width: 944px) and (max-width: 1024px) {
+  .field label {
+    font-size: 16px;
+  }
+  .pic {
+    width: 175px;
+  }
+  .container {
+    width: calc(100% - 50px);
+  }
+  .basicinfocontainer {
+    width: 677.6px;
+    padding: 16px 8px;
+    font-size: 14px;
+  }
+  .input {
+    width: 448.8px;
+  }
+  .textarea {
+    width: 639.2px;
+  }
+  .wideselect {
+    width: 497.6px;
+  }
+  .narrowselect {
+    width: 274.4px;
+  }
+  .pair {
+    gap: 28.8px;
+  }
+  .smallinput {
+    width: 256.8px;
+  }
+  .contactlabel {
+    font-size: 16px;
+  }
+  .contacttextarea {
+    width: 448.8px;
+  }
+}
+@media (min-width: 768px) and (max-width: 944px) {
+  .field label {
+    font-size: 16px;
+  }
+  .pic {
+    width: 120px;
+  }
+  .container {
+    width: calc(100% - 25px);
+  }
+  .basicinfocontainer {
+    width: 592.9px;
+    font-size: 14px;
+  }
+  .input {
+    width: 392.7px;
+  }
+  .textarea {
+    width: 559.3px;
+  }
+  .wideselect {
+    width: 435.4px;
+  }
+  .narrowselect {
+    width: 240.1px;
+  }
+  .pair {
+    gap: 25.2px;
+  }
+  .smallinput {
+    width: 224.7px;
+  }
+  .contactlabel {
+    font-size: 16px;
+  }
+  .contacttextarea {
+    width: 392.7px;
+  }
+}
+@media (max-width: 768px) {
+  .smallinput {
+    width: 80%;
+  }
+  .field label {
+    font-size: 16px;
+  }
+  .pic {
+    display: none;
+  }
+  .container {
+    width: calc(100% - 24px);
+  }
+  .basicinfocontainer {
+    width: 100%;
+    font-size: 14px;
+  }
+  .textarea {
+    width: 100%;
+  }
+  .input {
+    width: 80%;
+  }
+  .wideselect {
+    width: 80%;
+  }
+  .narrowselect {
+    width: 40%;
+  }
+  .pair {
+    gap: 10px;
+  }
+
+  .contactlabel {
+    font-size: 14px;
+  }
+  .contacttextarea {
+    width: 85%;
+  }
+}

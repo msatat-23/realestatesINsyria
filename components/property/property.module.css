@@ -1,0 +1,220 @@
+.property {
+  width: 402.3px;
+  height: 366.3px;
+  aspect-ratio: 402.3 / 366.3;
+  background-color: #f3ede5;
+  border-radius: 24px;
+  padding: 12px;
+  color: #252525;
+  z-index: 1;
+  pointer-events: auto;
+  transition: background 0.2s ease-in-out;
+}
+.property:hover {
+  background-color: #b0b8c3;
+}
+.imageWrapper {
+  width: 100%;
+  height: 230px;
+  position: relative;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #e5e7eb;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.propdata {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 230px);
+  margin-top: 2px;
+}
+
+.desc {
+  font-size: 16px;
+}
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.first {
+  width: 80%;
+  display: flex;
+  gap: 20px;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+}
+.addicon {
+  width: fit-content;
+  height: fit-content;
+  z-index: 2;
+}
+.specialproperty {
+  background: linear-gradient(to left, #3f3d2a, #a09d87);
+  font-size: 16px;
+  font-weight: bold;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.exclusiveproperty {
+  background: linear-gradient(to left, #584f00, #beab00);
+  font-size: 16px;
+  font-weight: bold;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.addimg {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+.addimg:hover {
+  transform: scale(1.2);
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: #466a85;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 50%;
+  left: 105%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 10;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease-in-out;
+}
+.couple {
+  display: flex;
+  width: 60%;
+  align-items: center;
+  justify-content: space-between;
+}
+.smallp {
+  font-size: 12px;
+  color: #466a85;
+  font-weight: bold;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(-50%) translateX(5px);
+}
+
+.addimg:hover {
+  filter: brightness(50%);
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #e5e7eb;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #93c5fd;
+  border-top: 6px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* @media (max-width: 1024px) {
+  .property {
+    width: 362.07px;
+    height: 329.67px;
+    padding: 8px;
+  }
+
+  .img {
+    height: 184px;
+  }
+  .propdata {
+    height: 40%;
+  }
+  .desc {
+    font-size: 14px;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .specialproperty {
+    font-size: 14px;
+  }
+  .exclusiveproperty {
+    font-size: 14px;
+  }
+  .addimg {
+    width: 28px;
+    height: 28px;
+  }
+} */

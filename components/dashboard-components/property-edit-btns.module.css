@@ -1,0 +1,49 @@
+.buttons {
+  padding: 20px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: "Tajawal";
+}
+.viewBtn {
+  width: 140px;
+  height: 46px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.viewBtn:hover {
+  background-color: #28618a;
+}
+.saveBtn {
+  width: 100px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+.saveBtn:hover {
+  background-color: #28618a;
+}
+.saveBtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
