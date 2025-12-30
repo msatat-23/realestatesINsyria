@@ -1,0 +1,75 @@
+.container {
+  width: 400px;
+  height: 250px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 12px 0 #00000016;
+  animation: initialA 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  z-index: 1000;
+}
+@keyframes initialA {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  50% {
+    transform: translate(-50%, -40%);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background: #00000084;
+  z-index: 999;
+}
+.h1 {
+  font-size: 18px;
+  color: rgba(255, 0, 0, 0.765);
+  font-weight: bold;
+  font-family: "Tajawal";
+}
+.btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+.cancelbtn {
+  padding: 8px 20px;
+  border-radius: 16px;
+  background-color: gray;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+}
+.cancelbtn:hover {
+  background-color: rgb(89, 89, 89);
+}
+.confirm {
+  padding: 8px 20px;
+  border-radius: 16px;
+  cursor: pointer;
+  background-color: rgba(255, 0, 0, 0.765);
+  color: #fff;
+  font-weight: 900;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+}
+.confirm:hover {
+  background-color: rgb(179, 0, 0);
+}

@@ -41,7 +41,7 @@ const PropertyDetails = async ({ params }) => {
         <div className={`${classes.page}`}>
 
 
-            <EditBtns state={propertyDetails.state} />
+            <EditBtns id={id} state={propertyDetails.state} />
             <div className={classes.imagesanddescription}>
                 <TitleAndDescription
                     id={propertyDetails.id}

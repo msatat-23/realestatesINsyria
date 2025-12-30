@@ -1,7 +1,9 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+
 export const deletePropertyById = async (id) => {
     const session = await auth();
+    const role = session?.user?.role;
     const userId = parseInt(session?.user?.id);
     if (!userId) return "بحاجة الى تسجيل دخول!";
 
@@ -10,7 +12,7 @@ export const deletePropertyById = async (id) => {
             id: parseInt(id)
         }
     });
-    if (!property || parseInt(property.userId) !== parseInt(userId)) return "حدث شيئ خاطئ";
+    if (!property || (parseInt(property.userId) !== parseInt(userId) && role === "USER")) return "حدث شيئ خاطئ";
 
     try {
         const deleteproperty = await prisma.property.delete({
@@ -22,7 +24,6 @@ export const deletePropertyById = async (id) => {
         console.log("فشل من السيرفر في حذف العقار!!");
         return { ok: false, error: e };
     }
-
 };
 
 

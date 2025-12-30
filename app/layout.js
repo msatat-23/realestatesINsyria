@@ -49,6 +49,7 @@ export default async function RootLayout({ children }) {
           <div id="advanced_search_modal_root"></div>
           <div id="view_user_modal_root"></div>
           <div id="loading_modal"></div>
+          <div id="confirm_delete_modal"></div>
         </ReduxProvider>
 
       </body>

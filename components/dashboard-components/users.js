@@ -60,7 +60,7 @@ const UsersClient = ({ users }) => {
         if (currentPage < totalPages) {
             setCurrentPage(prev => prev + 1);
         }
-    }
+    };
 
     useEffect(() => {
         setDisplayedUsers(users);
