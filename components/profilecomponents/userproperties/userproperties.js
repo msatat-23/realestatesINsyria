@@ -7,8 +7,9 @@ import { useSelector } from 'react-redux';
 import Confirm from '@/components/confirmcomponent/confirm';
 import { getUserProperties } from '@/app/profile/get-user-data';
 import { deleteProperty } from '@/app/addproperty/[id]/delete-data';
-import ReactDOM from "react-dom";
+import ReactDOM, { createPortal } from "react-dom";
 import { search } from '@/data/property/search';
+import ConfirmDelete from '@/components/dashboard-components/confirm-delete';
 const translationMap = {
     "ACCEPTED": "مقبول",
     "REJECTED": "مرفوض",
@@ -113,15 +114,7 @@ const UserProperties = () => {
             </div>)}
         </div>
         {showConfirmDelete && (
-            <div className={classes.confirmoverlay}>
-                <div className={classes.confirmmodal}>
-                    <p>هل أنت متأكد أنك تريد حذف هذا العقار من قائمة عقاراتك؟</p>
-                    <div className={classes.confirmbuttons}>
-                        <button className={classes.cancelbtn} onClick={() => setShowConfirmDelete(false)}>إلغاء</button>
-                        <button className={classes.confirmdeletebtn} onClick={handleDeleteProperty}>نعم، احذف العقار</button>
-                    </div>
-                </div>
-            </div>
+            createPortal(<ConfirmDelete unMount={() => setShowConfirmDelete(false)} confirm={handleDeleteProperty} />, document.getElementById("confirm_delete_modal"))
         )}
         {Loading && (
             <div className={classes.overlay}>

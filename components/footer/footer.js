@@ -23,11 +23,11 @@ const Footer = () => {
 
             </div>
             <div className={classes.logoinfo}>
-                <p>963940349764+</p>
+                <p dir='ltr' style={{ fontWeight: "900", fontFamily: "Tajawal", fontSize: "18px" }}><span>+</span>963 940 349 764</p>
                 <img className={classes.img} src='/assets/icons/phone/phone-call.png' />
             </div>
             <div className={classes.logoinfo}>
-                <p>mohammad.18@gmail.com</p>
+                <p style={{ fontWeight: "900", fontFamily: "Tajawal", fontSize: "18px" }}>muhammad23.2026@gmail.com</p>
                 <img className={classes.img} src='/assets/icons/email/email.png' />
             </div>
         </div>

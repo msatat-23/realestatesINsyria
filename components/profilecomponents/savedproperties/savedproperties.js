@@ -6,7 +6,9 @@ import Property from '@/components/property/property';
 import Confirm from '@/components/confirmcomponent/confirm';
 import { fetchSavedProperties } from '@/app/addproperty/[id]/get-data';
 import { deleteSavedPropertyForUser } from '@/app/addproperty/[id]/delete-data';
-import ReactDOM from "react-dom";
+import ReactDOM, { createPortal } from "react-dom";
+import ConfirmDelete from '@/components/dashboard-components/confirm-delete';
+import { useRouter } from 'next/navigation';
 const SavedProperties = () => {
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [savedproperties, setsavedproperties] = useState([]);
@@ -16,6 +18,7 @@ const SavedProperties = () => {
     const [showConfirmText, setShowConfirmText] = useState(false);
     const userid = useSelector(state => state.user.id);
 
+    const router = useRouter();
 
     useEffect(() => {
         const fetchsavedproperties = async () => {
@@ -43,7 +46,7 @@ const SavedProperties = () => {
             console.log(res);
             if (res.ok) {
                 console.log(JSON.parse(res.data));
-                setsavedproperties(prev => prev.filter(property => property.id != id));
+                setsavedproperties(prev => prev.filter(property => property.property.id !== id));
                 setShowConfirm(true);
                 setShowConfirmText("تم إزالة العقار من العقارات المحفوظة✓");
             }
@@ -76,15 +79,7 @@ const SavedProperties = () => {
             </div>
         </div>)}
         {showConfirmDelete && (
-            <div className={classes.confirmoverlay}>
-                <div className={classes.confirmmodal}>
-                    <p>هل أنت متأكد أنك تريد إزالة هذا العقار من العقارات المحفوظة؟</p>
-                    <div className={classes.confirmbuttons}>
-                        <button className={classes.cancelbtn} onClick={() => setShowConfirmDelete(false)}>إلغاء</button>
-                        <button className={classes.confirmdeletebtn} onClick={() => handleDeleteSavedP()}>نعم، أزل العقار</button>
-                    </div>
-                </div>
-            </div>
+            createPortal(<ConfirmDelete unMount={() => setShowConfirmDelete(false)} confirm={handleDeleteSavedP} />, document.getElementById("confirm_delete_modal"))
         )}
         {Loading && (
             <div className={classes.overlay}>

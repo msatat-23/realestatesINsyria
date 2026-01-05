@@ -4,6 +4,10 @@ import Select from "react-select";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import ConfirmDelete from "./confirm-delete";
+import { deleteUserServer, updateUserRoleServer } from "@/app/dashboard/users/server-actions";
+import Loading from "../loading/loading";
+import Confirm from "../confirmcomponent/confirm";
+import { useRouter } from "next/navigation";
 
 const roleTranslater = {
     "USER": "مستخدم عادي",
@@ -21,7 +25,11 @@ const roleOptions = [
 const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
     const [role, setRole] = useState(null);
     const [showDelete, setShowDelete] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [textConfirm, setTextConfirm] = useState("");
 
+    const router = useRouter();
 
     useEffect(() => {
         setRole({ value: user.role, label: user.role });
@@ -40,11 +48,58 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
         setShowDelete(false);
     };
 
-    const deleteHandler = () => {
-
+    const deleteHandler = async () => {
+        try {
+            setLoading(true);
+            const res = await deleteUserServer(user.id);
+            if (res.ok) {
+                setTextConfirm("تم بنجاح ✓")
+                setShowConfirm(true);
+            }
+            if (res.error === "UNAUTHORIZED") {
+                setTextConfirm("!!" + res.error)
+                setShowConfirm(true);
+            }
+            else if (!res.ok) {
+                setTextConfirm("حدث خطأ ما!!");
+                setShowConfirm(true);
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
     }
 
+    const updateRole = async () => {
+        try {
+            setLoading(true);
+            const res = await updateUserRoleServer(user.id, role.value);
+            if (res.ok) {
+                setShowConfirm(true);
+                setTextConfirm("تم بنجاح ✓");
+                router.refresh();
+            }
+            if (res.error === "UNAUTHORIZED" || res.error === "INVALID ROLE PASSED") {
+                setShowConfirm(true);
+                setTextConfirm("!!" + res.error);
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const hideConfirm = () => {
+        setShowConfirm(false);
+        setTextConfirm("");
+        router.refresh();
+    };
+
     return <div key={user.id} className={classes.user}>
+        {showConfirm && createPortal(<Confirm text={textConfirm} unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
+        {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
         {showDelete && createPortal(<ConfirmDelete unMount={hideDelete} confirm={deleteHandler} />, document.getElementById("confirm_delete_modal"))}
         <div className={classes.row}>
             <p className={classes.username}>{user.username}</p>
@@ -79,7 +134,7 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
                     })
                 }}
             />
-            <button className={classes.saveBtn} disabled={user.role === role?.value}>
+            <button className={classes.saveBtn} disabled={user.role === role?.value} onClick={updateRole}>
                 حفظ
             </button>
             <button className={classes.deleteBtn} disabled={user.role === "SUPERADMIN"} onClick={showDeleteHandler}>

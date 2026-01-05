@@ -15,28 +15,16 @@ const Users = async () => {
 
     const isSuperAdmin = role === "SUPERADMIN";
 
-    const users = isSuperAdmin ?
-        await prisma.user.findMany({
-            select: {
-                id: true,
-                username: true,
-                role: true,
-                createdAt: true,
-                _count: { select: { properties: true } }
-            }
-        }) :
-        await prisma.user.findMany({
-            where: {
-                role: "USER"
-            },
-            select: {
-                id: true,
-                username: true,
-                role: true,
-                createdAt: true,
-                _count: { select: { properties: true } },
-            }
-        });
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            username: true,
+            role: true,
+            createdAt: true,
+            _count: { select: { properties: true } }
+        },
+        orderBy: { createdAt: "desc" }
+    });
 
     return <div className={classes.dashboard}>
         <SideBar role={role} />
