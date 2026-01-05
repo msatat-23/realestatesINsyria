@@ -6,7 +6,7 @@
   background-color: #e5ecf3;
   padding: 50px 20px 30px 20px;
   position: absolute;
-  z-index: 10000;
+  z-index: 2147483647;
   top: 30px;
   right: 20%;
   left: 20%;

@@ -99,7 +99,12 @@ const Property = (props) => {
     return (<Card>
         <div className={`${classes.property} ${Readex_Pro_Font.className}`} onClick={viewPropertyDetails}>
             <div className={classes.imageWrapper}>
-                <img className={classes.img} onLoad={() => setLoadingImage(false)} src={image ? image : '/assets/pics/propertydumpic/ChatGPT Image Apr 28, 2025, 04_25_50 PM.png'} alt="propertypic" />
+                <img className={classes.img}
+                    onLoad={() => setLoadingImage(false)}
+                    onError={() => setLoadingImage(false)}
+                    src={image ? image : '/assets/pics/propertydumpic/ChatGPT Image Apr 28, 2025, 04_25_50 PM.png'} alt="propertypic"
+                    loading="lazy"
+                />
                 {loadingImage && <div className={classes.imageOverlay}>
                     <div className={classes.spinner}></div>
                     <p>جار التحميل...</p>

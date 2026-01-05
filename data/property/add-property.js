@@ -65,6 +65,7 @@ export const updateBasicData = async (id, data) => {
         description: data.description,
         propertyType: data.propertyType,
         purpose: data.purpose,
+        state: "PENDING",
         status: data.status,
         regionId: data.regionId,
         street: data.street,
@@ -107,7 +108,10 @@ export const sendImages = async (images, propertyId) => {
     const property = await prisma.property.findUnique({ where: { id: parseInt(propertyId) } });
     if (!property || parseInt(property.userId) !== userId) return "حدث خطأ ما الرجاء المحاولة لاحقا";
 
-
+    await prisma.property.update({
+        where: { id: parseInt(propertyId) },
+        data: { state: "PENDING" }
+    });
     const results = await Promise.all(
         images.map(async (image) => {
             try {
@@ -144,7 +148,10 @@ export const sendImage = async (secure_url, public_id, propertyId) => {
     const property = await prisma.property.findUnique({ where: { id: parseInt(propertyId) } });
     if (!property || parseInt(property.userId) !== userId) return "حدث خطأ ما الرجاء المحاولة لاحقا";
 
-
+    await prisma.property.update({
+        where: { id: parseInt(propertyId) },
+        data: { state: "PENDING" }
+    });
     try {
         const res = await prisma.image.create({
             data: {
@@ -176,7 +183,10 @@ export const sendVideo = async (video_url, video_public_id, propertyId) => {
     const property = await prisma.property.findUnique({ where: { id: parseInt(propertyId) } });
     if (!property || parseInt(property.userId) !== userId) return "حدث خطأ ما الرجاء المحاولة لاحقا";
 
-
+    await prisma.property.update({
+        where: { id: parseInt(propertyId) },
+        data: { state: "PENDING" }
+    });
     try {
         const res = await prisma.property.update({
             data: {
@@ -207,7 +217,10 @@ export const setAmenities = async (data) => {
     const property = await prisma.property.findUnique({ where: { id: parseInt(data[0].propertyId) } });
     if (!property || parseInt(property.userId) !== userId) return "حدث خطأ ما الرجاء المحاولة لاحقا";
 
-
+    await prisma.property.update({
+        where: { id: parseInt(data[0].propertyId) },
+        data: { state: "PENDING" }
+    });
     try {
         const deleteamenities = await prisma.propertyAmenity.deleteMany({
             where: { propertyId: parseInt(data[0].propertyId) }

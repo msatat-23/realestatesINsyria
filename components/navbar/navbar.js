@@ -29,6 +29,7 @@ const Navbar = () => {
             <AuthButton />
 
             <img onClick={clickhandler} className={classes.listBtn} src='/assets/icons/menu/hamburger.png' />
+            {clicked && <div className={classes.overlay} onClick={clickhandler} />}
 
             <div className={`${classes.menu}  ${clicked ? classes.show : ''}`}>
                 <Link href='/' className={linkClass}>

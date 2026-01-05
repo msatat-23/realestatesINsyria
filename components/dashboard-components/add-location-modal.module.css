@@ -1,0 +1,102 @@
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  z-index: 990;
+  background-color: #00000088;
+}
+.container {
+  width: 500px;
+  height: 350px;
+  background-color: #fff;
+  box-shadow: 0 3px 8px 0 #00000036;
+  border-radius: 12px;
+  animation: viewEffect 0.5s ease-out;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+@keyframes viewEffect {
+  0% {
+    transform: translate(-50%, -60%) scale(0.9);
+    filter: blur(1px);
+  }
+  50% {
+    transform: translate(-50%, -40%) scale(1.1);
+    filter: blur(0.5px);
+  }
+  100% {
+    transform: translateY(-50%, -50%) scale(1);
+    filter: blur(0px);
+  }
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.h1 {
+  font-size: 18px;
+  font-family: "Tajawal";
+  color: #2c3e50;
+  font-weight: 900;
+}
+.render_and_add {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.inputs {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+.input {
+  padding: 10px;
+  width: 90%;
+  height: 48px;
+  outline: none;
+  border: 1px solid #2c3e50;
+  border-radius: 6px;
+  background-color: #fffff0;
+  direction: rtl;
+}
+.input::placeholder {
+  font-weight: bold;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+.btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addBtn {
+  width: 120px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #2c3e50;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: "Tajawal";
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.addBtn:hover {
+  background-color: #34495e;
+}

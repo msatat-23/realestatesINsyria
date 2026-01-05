@@ -1,15 +1,11 @@
 "use client"
-import Link from "next/link";
 import classes from "./users.module.css";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { createPortal } from "react-dom";
 import ViewUserModal from "./view-user";
-const roleTranslater = {
-    "USER": "مستخدم عادي",
-    "ADMIN": "أدمن",
-    "SUPERADMIN": "سوبر أدمن"
-};
+import UserContainer from "./user-container";
+
 
 const options = [
     { value: "desc", label: "الأحدث" },
@@ -36,6 +32,7 @@ const getPages = (current, total) => {
 };
 
 
+
 const UsersClient = ({ users }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState("");
@@ -43,6 +40,7 @@ const UsersClient = ({ users }) => {
     const [selected, setSelected] = useState(null);
     const [viewUser, setViewUser] = useState(false);
     const [viewedUserId, setViewedUserId] = useState(null);
+
 
     const usersPerPage = 9;
     const lastUser = currentPage * usersPerPage;
@@ -117,6 +115,8 @@ const UsersClient = ({ users }) => {
         setViewedUserId(null);
     };
 
+
+
     return <div className={classes.users_client}>
         <div className={classes.search_filter}>
             <input
@@ -145,14 +145,7 @@ const UsersClient = ({ users }) => {
             />
         </div>
         <div className={classes.users}>
-            {displayedUsers.slice(firstUser, lastUser).map(user => <div key={user.id} className={classes.user}>
-                <p className={classes.username}>{user.username}</p>
-                <div className={classes.user_info}>
-                    <p>الوظيفة : <span>{roleTranslater[user.role]}</span></p>
-                    <p>عدد العقارات : <span>{user._count.properties}</span></p>
-                </div>
-                <button className={classes.viewbtn} onClick={() => { showUserHandler(user.id) }}>عرض المستخدم</button>
-            </div>)}
+            {displayedUsers.slice(firstUser, lastUser).map(user => <UserContainer key={user.id} user={user} setViewedUserId={setViewedUserId} setViewUser={setViewUser} />)}
         </div>
         <div className={classes.pagination_container}>
             <button className={classes.pagination_btn} onClick={handleNext}>

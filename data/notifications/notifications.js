@@ -50,3 +50,16 @@ export const markNotificationsRead = async () => {
         return { ok: false, error: e };
     }
 };
+export const getUnreadCount = async () => {
+    const session = await auth();
+    const userId = parseInt(session?.user?.id);
+    if (!userId) return { ok: false, error: "بحاجة إلى تسجيل دخول!" };
+    try {
+        const unreadCount = await prisma.notification.count({
+            where: { userId, isRead: false },
+        });
+        return { ok: true, data: unreadCount };
+    } catch (e) {
+        return { ok: false, error: e };
+    }
+};

@@ -151,7 +151,8 @@ const ViewUserModal = ({ id, unMount }) => {
                             ...base,
                             width: "300px",
                             height: "53px",
-                            cursor: "pointer"
+                            cursor: "pointer",
+                            backgroundColor: "#F5F5F5"
                         })
                     }}
                     value={selected || null}

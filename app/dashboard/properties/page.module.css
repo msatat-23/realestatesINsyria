@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
+.page {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 25px;
+  min-height: 100vh;
+}
+@media (max-width: 940px) {
+  .page {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+}

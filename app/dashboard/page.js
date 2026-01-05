@@ -49,7 +49,7 @@ const Dashboard = async () => {
         { id: 15, title: "الشكاوي غير المقروءة", count: data[14] },
     ];
     return <div className={classes.dashboard}>
-        <SideBar />
+        <SideBar role={role} />
         <div className={classes.statistics}>
             {formattedData.map(card => <div key={card.id} className={classes.card}>
                 <h1 className={classes.title}>{card.title}</h1>

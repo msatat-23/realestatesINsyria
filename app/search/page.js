@@ -158,6 +158,7 @@ const SearchPage = async ({ searchParams }) => {
     }
     console.log(where);
     where.completed = true;
+    where.state = "ACCEPTED";
     const properties = await prisma.property.findMany(
         {
             where,

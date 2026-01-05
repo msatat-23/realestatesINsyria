@@ -29,6 +29,10 @@ export const getStartingData = async () => {
     const governorates = await getAllGovernorates();
     return { types, purposes, statuses, governorates, directions };
 };
+export const getGovernoratesServer = async () => {
+    const governorates = await getAllGovernorates();;
+    return governorates;
+};
 export const getCities = async (governorateId) => {
     const cities = await getGovernorateCities(governorateId);
     return cities;

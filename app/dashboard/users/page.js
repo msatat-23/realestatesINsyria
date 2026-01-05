@@ -39,7 +39,7 @@ const Users = async () => {
         });
 
     return <div className={classes.dashboard}>
-        <SideBar />
+        <SideBar role={role} />
         <UsersClient users={users} />
     </div>
 };

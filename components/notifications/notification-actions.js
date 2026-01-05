@@ -1,6 +1,6 @@
 "use server"
 
-import { getNotifications, markNotificationRead, markNotificationsRead } from "@/data/notifications/notifications";
+import { getNotifications, getUnreadCount, markNotificationRead, markNotificationsRead } from "@/data/notifications/notifications";
 
 export const fetchAllNotifications = async () => {
     console.log("IAM IN SERVER FETCHING NOTIFICATIONS!!!");
@@ -15,5 +15,9 @@ export const markRead = async (id) => {
 export const markAllRead = async () => {
     console.log("IAM IN SERVER MARKING NOTIFICATIONS READ!!!");
     const res = await markNotificationsRead();
+    return res;
+};
+export const getUnreadCountServer = async () => {
+    const res = await getUnreadCount();
     return res;
 };

@@ -37,7 +37,7 @@
   bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 40;
+  z-index: 2000;
 }
 
 .notification-sidebar {
@@ -48,7 +48,7 @@
   height: 100%;
   background-color: white;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 50;
+  z-index: 10000;
   overflow-y: auto;
   direction: rtl;
   text-align: right;
@@ -98,7 +98,6 @@
   background-color: #f0f0f0;
 }
 
-
 .notification-mark-all-btn {
   display: block;
   width: 100%;
@@ -118,12 +117,10 @@
   background-color: #2c5282;
 }
 
-
 .notification-list {
   padding: 0;
   list-style: none;
 }
-
 
 .notification-item {
   padding: 16px;
@@ -174,7 +171,6 @@
   background-color: #ebf8ff;
 }
 
-
 .notification-loading,
 .notification-empty {
   padding: 32px 16px;
@@ -182,7 +178,6 @@
   color: #718096;
   font-size: 0.875rem;
 }
-
 
 @media (max-width: 480px) {
   .notification-sidebar {

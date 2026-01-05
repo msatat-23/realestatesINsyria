@@ -1,9 +1,26 @@
+.container_p {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: calc(100% - 192px);
+}
+.searchInput {
+  width: 300px;
+  padding: 10px;
+  height: 50px;
+  border-radius: 12px;
+  outline: none;
+  background-color: #fff;
+  border: 1px solid gray;
+  text-align: right;
+  direction: rtl;
+}
 .userproperties {
   display: flex;
   justify-content: center;
   gap: 20px;
   row-gap: 40px;
-  width: calc(100% - 192px);
   flex-wrap: wrap;
   margin: auto;
   margin-top: 100px;

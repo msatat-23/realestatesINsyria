@@ -218,3 +218,8 @@
     height: 28px;
   }
 } */
+@media (max-width: 430px) {
+  .property {
+    width: 360px;
+  }
+}

@@ -1,0 +1,97 @@
+.user {
+  padding: 20px;
+  width: 80%;
+  height: 160px;
+  border-radius: 16px;
+  border: 3px solid #557b97;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+}
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.username {
+  font-size: 18px;
+  font-weight: 900;
+  font-family: "Tajawal";
+  color: #557b97;
+}
+.user_info {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  font-family: "Tajawal";
+}
+.user_info span {
+  font-weight: 900;
+  color: #d32f2f;
+}
+.viewbtn {
+  width: 140px;
+  height: 46px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.viewbtn:hover {
+  background-color: #28618a;
+}
+.viewbtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+.saveBtn {
+  width: 90px;
+  height: 46px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.saveBtn:hover {
+  background-color: #28618a;
+}
+.saveBtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+.deleteBtn {
+  background-color: #d32f2f;
+  width: 140px;
+  height: 46px;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.deleteBtn:hover {
+  background-color: #d32f2fcb;
+}
+.deleteBtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}

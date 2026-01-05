@@ -1,12 +1,21 @@
 .container {
-  width: 100%;
-  height: 200px;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  box-shadow: 0 6px 24px 0 #00000085;
+  background-color: #fff;
   border-radius: 16px;
-  box-shadow: 0 6px 24px 0 #00000016;
+  padding: 10px;
+  width: 100%;
+}
+.top_container {
+  min-height: 180px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
 }
 .imageWrapper {
@@ -58,24 +67,29 @@
 .info {
   width: 260px;
   padding: 20px 0;
-  height: 100%;
+  height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   font-size: 16px;
   font-weight: 900;
   font-family: "Tajawal";
+  flex-wrap: wrap;
+}
+.info p {
+  width: 100%;
 }
 .buttons {
-  padding: 20px 0;
-  height: 100%;
+  padding: 10px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
   font-weight: 900;
   font-family: "Tajawal";
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .viewBtn {
   width: 140px;
@@ -114,4 +128,14 @@
 .saveBtn:disabled {
   background-color: gray;
   cursor: not-allowed;
+}
+@media (max-width: 1030px) {
+  .top_container {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
 }

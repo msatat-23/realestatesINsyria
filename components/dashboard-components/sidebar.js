@@ -2,7 +2,7 @@
 import Link from "next/link";
 import classes from "./sidebar.module.css";
 import { usePathname } from "next/navigation";
-const SideBar = () => {
+const SideBar = ({ role }) => {
     const pathName = usePathname();
 
 
@@ -12,9 +12,11 @@ const SideBar = () => {
         { key: 'users', label: 'المستخدمين', to: "/dashboard/users" },
         { key: 'properties', label: 'العقارات', to: "/dashboard/properties" },
         { key: 'locations', label: 'إدارة المواقع', to: "/dashboard/location-management" },
-        { key: 'subscriptions', label: 'الاشتراكات', to: "/dashboard/subscriptions" },
+        { key: 'subscriptions', label: 'طلبات الاشتراك', to: "/dashboard/subscriptions" },
         { key: 'complaints', label: 'الشكاوي', to: "/dashboard/complaints" },
     ];
+
+    if (role == "SUPERADMIN") sections.push({ key: "adduser", label: "إضافة مستخدم", to: "/dashboard/add-user" });
 
     return <div className={classes.sidebar}>
         <div>

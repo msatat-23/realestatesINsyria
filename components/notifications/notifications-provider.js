@@ -1,6 +1,7 @@
 "use client"
 import { createContext, useContext, useState, useRef, useEffect } from "react";
 import NotificatioSidebar from "./notifications";
+import { getUnreadCountServer } from "./notification-actions";
 
 const NotificationContext = createContext(null);
 
@@ -17,6 +18,20 @@ const NotificationsProvider = ({ userId, children }) => {
     const [connected, setConnected] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchCount = async () => {
+            try {
+                const res = await getUnreadCountServer();
+                if (res.ok) {
+                    setUnreadCount(res.data)
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchCount();
+    });
 
     useEffect(() => {
         console.log("CONNECTION STATUS : ", connected);
