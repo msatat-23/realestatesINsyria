@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Complaint" ALTER COLUMN "propertyId" DROP NOT NULL,
-ALTER COLUMN "userId" DROP NOT NULL;

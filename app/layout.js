@@ -9,6 +9,7 @@ import "@/lib/init-server";
 
 import { Readex_Pro } from 'next/font/google';
 import NotificationsProvider from "@/components/notifications/notifications-provider";
+import { AdminContextProvider } from "@/components/dashboard-components/listen";
 const Readex_Pro_Font = Readex_Pro({ subsets: ['arabic'], weight: '400' });
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log(session);
+
   return (
     <html lang="ar" dir="rtl">
       <head>
@@ -42,9 +43,11 @@ export default async function RootLayout({ children }) {
       >
 
         <ReduxProvider session={session}>
-          <NotificationsProvider userId={userId}>
-            {children}
-          </NotificationsProvider>
+          <AdminContextProvider>
+            <NotificationsProvider userId={userId}>
+              {children}
+            </NotificationsProvider>
+          </AdminContextProvider>
           <div id="feedback_modal_root"></div>
           <div id="advanced_search_modal_root"></div>
           <div id="view_user_modal_root"></div>

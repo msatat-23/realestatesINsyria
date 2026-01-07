@@ -56,6 +56,7 @@ model User {
   emailVerified         DateTime?
   isTwoFactorEnabled    Boolean                @default(false)
   image_public_id       String?
+  comments              Comment[]
   complaints            Complaint[]
   notifications         Notification[]
   properties            Property[]
@@ -64,7 +65,6 @@ model User {
   subscriptionrequests  SubscriptionRequest[]
   twoFactorConfirmation TwoFactorConfirmation?
   accounts              Account[]
-  comments              Comment[]
 }
 
 model Property {
@@ -93,6 +93,7 @@ model Property {
   updatedAt       DateTime          @updatedAt
   completed       Boolean           @default(false)
   video_public_id String?
+  comments        Comment[]
   complaints      Complaint[]
   images          Image[]
   region          Region            @relation(fields: [regionId], references: [id])
@@ -100,7 +101,6 @@ model Property {
   amenities       PropertyAmenity[]
   reviews         Review[]
   savedProperties SavedProperty[]
-  comments        Comment[]
 }
 
 model Amenity {
@@ -142,10 +142,10 @@ model SubscriptionRequest {
 model Notification {
   id          Int      @id @default(autoincrement())
   userId      Int
-  title       String
-  description String
   isRead      Boolean  @default(false)
   createdAt   DateTime @default(now())
+  description String
+  title       String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -175,20 +175,20 @@ model Comment {
   propertyId Int
   comment    String
   createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Complaint {
   id            Int       @id @default(autoincrement())
-  name          String
-  email         String
   propertyId    Int?
   userId        Int?
   description   String
   complaintType compTypes @default(INQUIRY)
-  readByAdmin   Boolean   @default(false)
   createdAt     DateTime  @default(now())
+  readByAdmin   Boolean   @default(false)
+  email         String
+  name          String
   property      Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -237,6 +237,12 @@ model TwoFactorConfirmation {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum UserType {
+  ADMIN      @map("أدمن")
+  USER       @map("مستخدم_عادي")
+  SUPERADMIN @map("سوبر_أدمن")
+}
+
 enum Subscription {
   FREE      @map("مجاني")
   PREMIUM   @map("مميز")
@@ -244,9 +250,9 @@ enum Subscription {
 }
 
 enum UserRole {
-  SUPERADMIN @map("سوبر_أدمن")
   ADMIN      @map("أدمن")
   USER       @map("مستخدم_عادي")
+  SUPERADMIN @map("سوبر_أدمن")
 }
 
 enum PropertyType {

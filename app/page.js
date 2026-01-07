@@ -23,7 +23,7 @@ export default async function Home() {
       state: "ACCEPTED"
     },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     },
     take: propertiesToTake,
     select: {
@@ -46,7 +46,7 @@ export default async function Home() {
       state: "ACCEPTED"
     },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     },
     take: propertiesToTake,
     select: {
@@ -64,7 +64,6 @@ export default async function Home() {
     },
   });
 
-  console.log("IAM IN MAIN PAGE")
   return (
     <Fragment>
 

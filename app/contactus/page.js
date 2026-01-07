@@ -88,7 +88,7 @@ const ContactUs = () => {
     };
 
     return (<Fragment>
-        <div className={Readex_Pro_Font.className}>
+        <div className={` ${classes.page} ${Readex_Pro_Font.className}`} >
             <Navbar mainpage={false} />
             <div className={`${classes.container} ${Readex_Pro_Font.className}`}>
                 <h1 className={classes.title}>اتصل بنا</h1>
@@ -197,9 +197,9 @@ const ContactUs = () => {
                     </div>}
                 </form>
             </div>
-            <Footer />
             {loading && <Loading />}
             {showFeedBackModal && ReactDOM.createPortal(<Confirm text={feedBackModalText} unMount={closeFeedBackModal} />, document.getElementById("feedback_modal_root"))}
+            <Footer />
         </div> </Fragment>
     );
 }

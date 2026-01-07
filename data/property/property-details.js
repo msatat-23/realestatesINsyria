@@ -31,10 +31,15 @@ export const getUserPropertiesByUserId = async (userId) => {
     }
 };
 export const getPropertyFirstImage = async (propertyId) => {
-    const image = await prisma.image.findFirst({
-        where: { propertyId: parseInt(propertyId) }
-    });
-    return image;
+    try {
+
+        const image = await prisma.image.findFirst({
+            where: { propertyId: parseInt(propertyId) }
+        });
+        return image;
+    } catch (e) {
+        return { ok: false, error: e };
+    }
 };
 export const getPropertyImages = async (propertyId) => {
     console.log(propertyId)

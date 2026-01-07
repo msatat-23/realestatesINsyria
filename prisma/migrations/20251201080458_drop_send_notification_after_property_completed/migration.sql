@@ -1,2 +1,0 @@
-DROP FUNCTION IF EXISTS send_notification_after_property_completed_fixed() CASCADE;
-DROP TRIGGER IF EXISTS send_under_review_notification_after_property_completed_fixed ON "Property";

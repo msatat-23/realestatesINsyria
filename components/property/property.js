@@ -77,17 +77,13 @@ const Property = (props) => {
             try {
                 setLoadingImage(true)
                 const image = await getFirstImageSecureUrl(id);
-                console.log(image);
-
                 setImage(optimizeCloudinary(image.secure_url));
             } catch (e) {
-                console.log('فشل في جلب الصور ', e);
                 setLoadingImage(false);
             }
         };
         if (props.id) {
             fetchimage(props.id);
-            console.log(props.id);
         }
     }, []);
 

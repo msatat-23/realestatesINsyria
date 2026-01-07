@@ -6,6 +6,7 @@ import { generateTwoFactorToken, getTwoFactorTokenByToken } from "@/data/user/tw
 import { sendVerificationEmail } from "@/lib/mail";
 import { sendTwoFactorTokenEmail } from "@/lib/mail-twofactor";
 import { createTwoFactorConfirmation } from "@/data/user/twofactor-confirmation";
+import jwt from "jsonwebtoken";
 // import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 export const Login = async (validatedfields) => {
     try {
@@ -40,6 +41,18 @@ export const Login = async (validatedfields) => {
         console.log("results: ", res);
         if (!res || res.error) {
             return { ok: false, error: res?.error || "auth_error", details: res }
+        }
+        if (existingUser.role !== "USER") {
+            const token = jwt.sign({
+                userId: existingUser.id,
+                role: existingUser.role
+            },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "30d"
+                }
+            );
+            return { ok: true, data: res, token: token };
         }
         return { ok: true, data: res };
     } catch (err) {

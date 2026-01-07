@@ -207,7 +207,6 @@ const SignUpClient = () => {
                         } else {
                             dispatch({ type: "SET_FIELD", field: "role", value: "" });
                             dispatch({ type: "SET_FULLROLE", value: null });
-
                         }
                     }}
                     styles={selectStyles}

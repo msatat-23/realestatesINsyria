@@ -1,4 +1,4 @@
-import { WebSocketServer } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
 import 'dotenv/config';
 import pkg from "pg";
 
@@ -17,14 +17,12 @@ await listener.query('LISTEN new_notification');
 
 listener.on('notification', (msg) => {
     const payload = JSON.parse(msg.payload);
-    sendNotificationToUser(String(payload.userId), {
-        text: payload.text,
-    });
+    sendNotificationToUser(String(payload.userId), payload);
 });
 
 wss.on("connection", (socket, request) => {
     const url = new URL(request.url, "http://localhost");
-    const userId = String(url.searchParams.get("userId"));
+    const userId = url.searchParams.get("userId");
     if (!userId) {
         socket.close();
         return;
@@ -56,11 +54,11 @@ function sendNotificationToUser(userId, payload) {
 
     const message = JSON.stringify({
         type: "NOTIFICATION",
-        payload,
+        payload: payload,
     });
 
     sockets.forEach((socket) => {
-        if (socket.readyState === socket.OPEN) {
+        if (socket.readyState === WebSocket.OPEN) {
             socket.send(message);
         }
     });

@@ -9,6 +9,7 @@ const rateLimiter = new RateLimiterMemory({
 export const sendBasicData = async (data) => {
     const session = await auth();
     const userId = parseInt(session?.user?.id);
+    console.log(userId);
     if (!userId) return "بحاجة الى تسجيل دخول!";
 
     const key = userId;
@@ -75,6 +76,7 @@ export const updateBasicData = async (id, data) => {
         floor: data.floor,
         direction: data.direction,
         contactInfo: data.contactInfo,
+        completed: false
     };
     try {
         const property = await prisma.property.findUnique({ where: { id: parseInt(id) } });

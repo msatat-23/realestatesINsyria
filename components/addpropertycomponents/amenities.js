@@ -4,7 +4,7 @@ import classes from './amenities.module.css';
 import Select from 'react-select';
 import { getAllPropertyAmenities, getAmenities } from '@/app/addproperty/[id]/get-data';
 import { addAmenities, setCompleted } from '@/app/addproperty/[id]/send-data';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Loading from '../loading/loading';
 const customStyles = {
     control: (base) => ({
@@ -107,7 +107,8 @@ const Amenities = (props) => {
                 // console.log(data);
                 localStorage.removeItem("propertyId");
                 localStorage.removeItem("currentStep");
-                router.replace('/');
+                if (res.ok) window.location.replace('/');;
+
             } catch (e) {
                 console.log("فشل في ضبط العقار مكتملا!!!", e);
             }

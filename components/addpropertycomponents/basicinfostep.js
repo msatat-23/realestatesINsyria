@@ -302,9 +302,24 @@ const BasicInfo = (props) => {
         }
         try {
             const res = property ? await updateBasicPropertyData(propertyId, newstate) : await submitBasicPropertyData(newstate);
-            console.log(res);
-            console.log(res);
-            data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+            console.log("RAW RES:", res);
+            console.log("RES.DATA TYPE:", typeof res.data);
+            console.log("RES.DATA VALUE:", res.data);
+
+
+            let data = null;
+
+            if (typeof res.data === "string") {
+                try {
+                    data = JSON.parse(res.data);
+                } catch (parseError) {
+                    console.log("JSON PARSE ERROR:", parseError);
+                    data = null;
+                }
+            } else {
+                data = res.data ?? null;
+            }
+
             console.log(data);
 
             if (res.ok) {
@@ -314,7 +329,13 @@ const BasicInfo = (props) => {
                 props.next();
             }
             else {
-                setServerError(res.error);
+                const message =
+                    typeof res.error === "string"
+                        ? res.error
+                        : res.error?.message
+                        || JSON.stringify(res.error)
+                        || "Unknown error";
+                setServerError(message);
             }
         } catch (e) {
             console.log(e);
@@ -322,14 +343,12 @@ const BasicInfo = (props) => {
         } finally {
             setLoading(false);
         }
-
-
     };
 
     const NextStep = () => {
         const { errors, street, price, rooms, area, floor, direction, ...rest } = state;
         const errorsnull = Object.values(state.errors).every(item => item === null);
-        const restnotempty = Object.values(rest).every(item => item !== null && item !== undefined && item.toString().trim() !== '');
+        const restnotempty = Object.values(rest).every(item => item !== null && item !== undefined && item !== '');
         return errorsnull && restnotempty;
     }
 
@@ -441,8 +460,8 @@ const BasicInfo = (props) => {
                         <Select
                             styles={customStyles}
                             options={Cities}
-                            className={`${classes.narrowselect} ${classes.common} $`}
-                            disabled={!choosenGovernorate}
+                            className={`${classes.narrowselect} ${classes.common}`}
+                            isDisabled={!choosenGovernorate}
                             value={choosenCity || null}
                             onChange={(selectedOption) => {
                                 setChoosenCity(selectedOption)
@@ -472,7 +491,7 @@ const BasicInfo = (props) => {
                         styles={customStyles}
                         options={Regions}
                         className={`${classes.narrowselect} ${classes.common} `}
-                        disabled={!choosenCity}
+                        isDisabled={!choosenCity}
                         value={choosenRegion || null}
                         onChange={(selectedOption) => {
                             setChoosenRegion(selectedOption);

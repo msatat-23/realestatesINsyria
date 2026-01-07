@@ -72,7 +72,9 @@ const LogInClient = () => {
             dispatch({ type: 'SET_SHOWCODE' });
             return;
         }
-
+        if (response.ok && response.token) {
+            localStorage.setItem("ws_token", response.token);
+        }
         console.log(response);
     };
 

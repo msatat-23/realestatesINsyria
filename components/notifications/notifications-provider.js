@@ -34,9 +34,10 @@ const NotificationsProvider = ({ userId, children }) => {
     });
 
     useEffect(() => {
-        console.log("CONNECTION STATUS : ", connected);
-        console.log("UNREAD COUNT : ", unreadCount);
-    }, [connected, unreadCount]);
+        console.log("connected status : ", connected);
+        console.log("unread : ", unreadCount);
+    },
+        [connected, unreadCount]);
 
     useEffect(() => {
         if (!userId) return;
@@ -48,13 +49,13 @@ const NotificationsProvider = ({ userId, children }) => {
             setConnected(true);
         };
 
-        socketRef.current.onmessage = (event) => {
-            console.log("WS MESSAGE:", event.data);
-            const msg = JSON.parse(event.data);
-            if (msg.type === "NOTIFICATION") {
+        socketRef.current.onmessage = async (msg) => {
+            const payload = JSON.parse(msg.data);
+            if (payload?.type === "NOTIFICATION") {
                 setUnreadCount(prev => prev + 1);
             }
         };
+
 
         socketRef.current.onclose = () => {
             setConnected(false);
