@@ -1,7 +1,7 @@
 .user {
   padding: 20px;
   width: 80%;
-  height: 160px;
+  height: 200px;
   border-radius: 16px;
   border: 3px solid #557b97;
   display: flex;
@@ -94,4 +94,46 @@
 .deleteBtn:disabled {
   background-color: gray;
   cursor: not-allowed;
+}
+.readbtn {
+  width: 140px;
+  height: 46px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: #fff;
+  text-align: center;
+  align-content: center;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.readbtn:hover {
+  background-color: #28618a;
+}
+.readbtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+@media (max-width: 1024px) {
+  .user {
+    width: 400px;
+    height: 400px;
+    padding: 10px;
+  }
+  .row {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .user_info {
+    width: 100%;
+  }
+}
+@media (max-width: 500px) {
+  .user {
+    width: 360px;
+  }
 }

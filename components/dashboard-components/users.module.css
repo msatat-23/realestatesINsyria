@@ -120,10 +120,16 @@
   .users_client {
     width: 95%;
   }
+  .users {
+    justify-content: center;
+    align-items: center;
+  }
 }
 @media (max-width: 768px) {
   .user {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: fit-content;
     gap: 30px;
   }

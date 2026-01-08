@@ -6,6 +6,7 @@ import { markReadServer } from "@/app/dashboard/complaints/mutate";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import Loading from "../loading/loading";
+import { useAdminContext } from "./listen";
 
 const options = [
     { value: "desc", label: "الأحدث" },
@@ -36,6 +37,8 @@ const ComplaintsClient = ({ complaints }) => {
     const [displayedComplaints, setDisplayedComplaints] = useState([]);
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const { fetchcount } = useAdminContext();
 
     const complaintsPerPage = 9;
     const lastComplaint = currentPage * complaintsPerPage;
@@ -97,6 +100,7 @@ const ComplaintsClient = ({ complaints }) => {
             setLoading(true);
             const res = await markReadServer(id);
             if (res.ok) {
+                fetchcount();
                 router.refresh();
             }
         } catch (e) {
@@ -143,7 +147,7 @@ const ComplaintsClient = ({ complaints }) => {
                 {complaint.propertyId && <p className={classes.p}>كود العقار: {complaint.propertyId}</p>}
                 <p className={classes.user_date}>تاريخ الإنشاء: {new Date(complaint.createdAt).toLocaleDateString("ar-EG")}</p>
                 <p className={classes.user_name}>مقروء: {complaint.readByAdmin ? "TRUE" : "FALSE"}</p>
-                <button className={classes.markread} onClick={() => { markReadHandler(complaint.id) }}>تعليم كمقروء</button>
+                <button className={classes.markread} disabled={complaint.readByAdmin} onClick={() => { markReadHandler(complaint.id) }}>تعليم كمقروء</button>
             </div>)}
         </div>
         <div className={classes.pagination_container}>

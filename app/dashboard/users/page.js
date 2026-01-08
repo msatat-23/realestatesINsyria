@@ -20,6 +20,7 @@ const Users = async () => {
             id: true,
             username: true,
             role: true,
+            confirmedByAdmin: true,
             createdAt: true,
             _count: { select: { properties: true } }
         },

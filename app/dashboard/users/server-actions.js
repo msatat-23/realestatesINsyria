@@ -1,6 +1,6 @@
 "use server"
 
-import { deleteUser, updateUserPropertyState, updateUserRole } from "@/data/dashboard/user";
+import { deleteUser, markUserRead, updateUserPropertyState, updateUserRole } from "@/data/dashboard/user";
 
 const { getAllUserDataForAdmin, getAllUserPropertiesForAdmin } = require("@/data/user/get-user-info");
 
@@ -23,5 +23,9 @@ export const updateUserRoleServer = async (userId, newRole) => {
 };
 export const deleteUserServer = async (userId) => {
     const res = await deleteUser(userId);
+    return res;
+};
+export const markUserReadServer = async (userId) => {
+    const res = await markUserRead(userId);
     return res;
 };

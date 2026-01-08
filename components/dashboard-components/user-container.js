@@ -4,10 +4,11 @@ import Select from "react-select";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import ConfirmDelete from "./confirm-delete";
-import { deleteUserServer, updateUserRoleServer } from "@/app/dashboard/users/server-actions";
+import { deleteUserServer, markUserReadServer, updateUserRoleServer } from "@/app/dashboard/users/server-actions";
 import Loading from "../loading/loading";
 import Confirm from "../confirmcomponent/confirm";
 import { useRouter } from "next/navigation";
+import { useAdminContext } from "./listen";
 
 const roleTranslater = {
     "USER": "مستخدم عادي",
@@ -28,6 +29,8 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
     const [loading, setLoading] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [textConfirm, setTextConfirm] = useState("");
+
+    const { setUserCount } = useAdminContext();
 
     const router = useRouter();
 
@@ -97,6 +100,27 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
         router.refresh();
     };
 
+    const markReadHandler = async () => {
+        try {
+            setLoading(true);
+            const res = await markUserReadServer(user.id);
+            if (res.ok) {
+                setUserCount(prev => prev - 1);
+                setShowConfirm(true);
+                setTextConfirm("تم بنجاح ✓");
+                router.refresh();
+            }
+            else if (res.error === "UNAUTHORIZED") {
+                setShowConfirm(true);
+                setTextConfirm("!!" + res.error);
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return <div key={user.id} className={classes.user}>
         {showConfirm && createPortal(<Confirm text={textConfirm} unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
         {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
@@ -141,6 +165,9 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
                 حذف المستخدم
             </button>
         </div>
+        {user.role === "USER" && <button className={classes.readbtn} disabled={user.confirmedByAdmin} onClick={() => { markReadHandler() }}>
+            تعليم كمقروء
+        </button>}
     </div>
 };
 export default UserContainer;

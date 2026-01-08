@@ -7,6 +7,7 @@ import Loading from "../loading/loading";
 import { createPortal } from "react-dom";
 import Confirm from "../confirmcomponent/confirm";
 import { useRouter } from "next/navigation";
+import { useAdminContext } from "./listen";
 const altImage = "/assets/pics/propertydumpic/ChatGPT Image Apr 28, 2025, 04_25_50 PM.png";
 
 const getSelectValue = (value) => {
@@ -41,6 +42,9 @@ const PropertyContainer = ({ property }) => {
     const [selected, setSelected] = useState({});
     const [selectedAfterSave, setSelectedAfterSave] = useState({});
     const router = useRouter();
+
+    const { setPropertyCount } = useAdminContext();
+
     const createdAt = new Date(property.createdAt).toLocaleDateString();
     const disabledSave = selected.label === getSelectValue(property.state).label ||
         selected.label === selectedAfterSave.label;
@@ -59,6 +63,12 @@ const PropertyContainer = ({ property }) => {
             const res = await updateUserPropertyStateServer(property.id, state);
             console.log(res);
             if (res.ok) {
+                if (selected.label === "PEND") {
+                    setPropertyCount(prev => prev + 1);
+                }
+                else {
+                    setPropertyCount(prev => prev - 1);
+                }
                 setShowConfirm(true);
                 setTextConfirm("تم بنجاح ✓");
                 setSelectedAfterSave(selected);

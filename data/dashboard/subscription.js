@@ -31,3 +31,17 @@ export const setRequestAccepted = async (requestId) => {
         return { ok: false, error: e };
     }
 };
+export const markReadByAdmin = async (id) => {
+    const session = await auth();
+    const role = session?.user?.role;
+    if (!role || role === "USER") return "UNAUTHORIZED";
+    try {
+        const res = await prisma.subscriptionRequest.update({
+            where: { id: parseInt(id), },
+            data: { confirmedByAdmin: true }
+        });
+        return { ok: true, data: res };
+    } catch (e) {
+        return { ok: false, error: e };
+    }
+};

@@ -95,6 +95,10 @@
 .markread:hover {
   background-color: #2b4f68;
 }
+.markread:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
 .pagination_container {
   margin-top: 24px;
   display: flex;

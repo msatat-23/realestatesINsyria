@@ -36,6 +36,7 @@
   border-bottom: 5px solid #557b97;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  position: relative;
 }
 
 .section_link:hover {
@@ -49,6 +50,23 @@
   background-color: #e0e7ef;
   font-weight: bold;
   border-right: 4px solid #007bff;
+}
+.span {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-weight: 900;
+  font-family: "Tajawal";
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .exit {
   position: absolute;
@@ -86,6 +104,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 5px;
+    row-gap: 50px;
     padding: 0;
   }
   .section_link {
@@ -95,6 +114,11 @@
     border-bottom: none;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+  }
+  .span {
+    top: 110%;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 }
 @media (max-width: 860px) {

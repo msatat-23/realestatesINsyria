@@ -76,7 +76,7 @@ wss.on("connection", (socket, request) => {
 const notifyAdmin = (payload) => {
     users.forEach(user => user.forEach(socket => {
         if (socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify(payload))
+            socket.send(JSON.stringify({ type: "NEW_INSERTED", payload }))
         }
     }
     ));

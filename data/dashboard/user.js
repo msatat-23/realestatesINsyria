@@ -64,3 +64,22 @@ export const deleteUser = async (userId) => {
         return { ok: false, error: e };
     }
 };
+export const markUserRead = async (userId) => {
+    const session = await auth();
+    const role = session?.user?.role;
+    if (role === "USER") return { ok: false, error: "UNAUTHORIZED" };
+    const user = await prisma.user.findUnique({
+        where: { id: parseInt(userId) },
+        select: { role: true }
+    });
+    if (!user || user.role === "SUPERADMIN" || user.role === "ADMIN") return { ok: false, error: "UNAUTHORIZED" };
+    try {
+        const res = await prisma.user.update({
+            where: { id: parseInt(userId) },
+            data: { confirmedByAdmin: true }
+        });
+        return { ok: true, data: res };
+    } catch (e) {
+        return { ok: false, error: e };
+    }
+};

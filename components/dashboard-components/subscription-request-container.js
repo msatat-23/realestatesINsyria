@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 import classes from "./subscription-request-container.module.css";
 import Select from "react-select";
-import { setRequestAcceptedServer, updateUserSubscriptionServer } from "@/app/dashboard/subscriptions/mutate";
+import { markReadByAdminServer, setRequestAcceptedServer, updateUserSubscriptionServer } from "@/app/dashboard/subscriptions/mutate";
 import { createPortal } from "react-dom";
 import Confirm from "../confirmcomponent/confirm";
 import Loading from "../loading/loading";
 import { useRouter } from "next/navigation";
+import { useAdminContext } from "./listen";
 
 const subOptions = [
     { value: "FREE", label: "FREE" },
@@ -20,6 +21,8 @@ const SubscriptionRequestContainer = ({ request }) => {
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
+
+    const { setSubRequestCount } = useAdminContext();
 
     useEffect(() => {
         setSub({ value: request.user.subscription, label: request.user.subscription });
@@ -63,10 +66,25 @@ const SubscriptionRequestContainer = ({ request }) => {
         router.refresh();
     };
 
+    const markReadHandler = async () => {
+        try {
+            setLoading(true);
+            const res = await markReadByAdminServer(request.id);
+            if (res.ok) {
+                setSubRequestCount(prev => prev - 1);
+                router.refresh();
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return <div className={classes.request}>
         {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
         {showConfirm && createPortal(<Confirm text={confirmText} unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
-        <img src={image} alt="request_image" />
+        <img className={classes.img} src={image} alt="request_image" />
         <div className={classes.request_info}>
             <div className={classes.info}>
                 <p className={classes.p}>اسم المستخدم : {request.user?.username}</p>
@@ -102,13 +120,13 @@ const SubscriptionRequestContainer = ({ request }) => {
                     }}
                     placeholder="تحديد"
                     options={subOptions}
-                    isClearable
                 />
                 <button className={classes.saveBtn} onClick={saveHandler} disabled={sub?.value == request.user?.subscription}>
                     حفظ
                 </button>
             </div>
         </div>
+        <button className={classes.markread} disabled={request.confirmedByAdmin} onClick={() => { markReadHandler(request.id) }}>تعليم كمقروء</button>
     </div>
 };
 export default SubscriptionRequestContainer;

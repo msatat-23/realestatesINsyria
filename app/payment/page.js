@@ -34,7 +34,10 @@ export default function PaymentPage({ searchParams }) {
     };
 
     const handleFileChange = (e) => {
-        setReceiptFile(e.target.files[0]);
+        const file = e.target.files[0]
+        const maxSize = 1024 * 1024;
+        if (file.size > maxSize) setError("الرجاء رفع الايصال بحجم اقل من 2 ميغا.");
+        setReceiptFile(file);
         setError("");
     };
 
