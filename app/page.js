@@ -7,6 +7,8 @@ import { Fragment } from "react";
 import Mainpageproperties from "@/components/property/mainpageproperties";
 import Footer from "@/components/footer/footer";
 import prisma from '@/lib/prisma';
+import { auth } from '@/auth';
+import Link from 'next/link';
 const Readex_Pro_Font = Readex_Pro(
   {
     subsets: ['arabic'],
@@ -16,6 +18,10 @@ const Readex_Pro_Font = Readex_Pro(
 
 
 export default async function Home() {
+
+  const session = await auth();
+  const role = session?.user?.role;
+
   let propertiesToTake = 12;
   const exclusive = await prisma.property.findMany({
     where: {
@@ -69,6 +75,11 @@ export default async function Home() {
 
       <div className={`${classes.background} ${Readex_Pro_Font.className}`}>
         <Navbar />
+        {role !== "USER" && <div className={classes.dashBtnContainer}>
+          <Link href="/dashboard" className={classes.dashBtn}>
+            لوحة تحكم المستخدم
+          </Link>
+        </div>}
         <Search />
         <Mainpageproperties properties={{ exclusive, special }} />
         <Subdesc />

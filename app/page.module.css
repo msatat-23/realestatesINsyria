@@ -18,6 +18,30 @@
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 5;
 }
+.dashBtnContainer {
+  margin: 30px auto;
+  display: block;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dashBtn {
+  width: 250px;
+  height: 53px;
+  background-color: #1e3a5f;
+  text-align: center;
+  align-content: center;
+  color: white;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  font-family: "Tajawal";
+  transition: all 0.3s ease-in-out;
+}
+.dashBtn:hover {
+  background-color: #16263d;
+}
 .showMoreProperties {
   padding: 20px 30px;
   border-radius: 15px;

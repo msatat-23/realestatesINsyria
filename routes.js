@@ -56,3 +56,11 @@ export const DEFAULT_LOGIN_REDIRECT = "/";
 
 
 export const ApiRegisterRoute = "/api/register";
+
+
+/*
+ * route prefix that is only accessible by admins 
+ * and the prefix is /dashboard
+ */
+
+export const AdminDashRoutesPrefix = "/dashboard"
