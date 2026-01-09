@@ -9,6 +9,7 @@ import { addPropTofavorite } from '@/app/addproperty/[id]/send-data';
 import ReactDOM from "react-dom";
 import Confirm from '../confirmcomponent/confirm';
 import Loading from '../loading/loading';
+import Link from 'next/link';
 
 const Readex_Pro_Font = Readex_Pro({
     subsets: ['arabic'],
@@ -31,10 +32,7 @@ const Property = (props) => {
     const [confirmText, setConfirmText] = useState("");
     const [loadingImage, setLoadingImage] = useState(false);
 
-    const viewPropertyDetails = () => {
-        if (loading) return;
-        router.push(`/property/${props.id}`);
-    }
+
 
     const formattedDate = props.createdAt
         ? new Date(props.createdAt).toLocaleDateString('en-GB', {
@@ -93,61 +91,64 @@ const Property = (props) => {
     };
 
     return (<Card>
-        <div className={`${classes.property} ${Readex_Pro_Font.className}`} onClick={viewPropertyDetails}>
-            <div className={classes.imageWrapper}>
-                <img className={classes.img}
-                    onLoad={() => setLoadingImage(false)}
-                    onError={() => setLoadingImage(false)}
-                    src={image ? image : '/assets/pics/propertydumpic/ChatGPT Image Apr 28, 2025, 04_25_50 PM.png'} alt="propertypic"
-                    loading="lazy"
-                />
-                {loadingImage && <div className={classes.imageOverlay}>
+        <Link href={`/property/${props.id}`}>
+            <div className={`${classes.property} ${Readex_Pro_Font.className}`}>
+                <div className={classes.imageWrapper}>
+                    <img className={classes.img}
+                        onLoad={() => setLoadingImage(false)}
+                        onError={() => setLoadingImage(false)}
+                        src={image ? image : '/assets/pics/propertydumpic/ChatGPT Image Apr 28, 2025, 04_25_50 PM.png'} alt="propertypic"
+                        loading="lazy"
+                    />
+                    {loadingImage && <div className={classes.imageOverlay}>
+                        <div className={classes.spinner}></div>
+                        <p>جار التحميل...</p>
+                    </div>}
+                </div>
+                <div className={classes.propdata}>
+                    <div className={classes.section}>
+                        <div className={classes.desc}><p>{props.title}</p></div>
+                        <div className={classes.desc}>{translationMap[props.purpose]}</div>
+                    </div>
+                    <div className={classes.section}>
+                        <div className={classes.first}>
+                            <div className={classes.icon}><img src='/assets/icons/propertyprice/price.png' /></div>
+                            <div className={classes.desc}>${props.price}</div>
+                        </div>
+                        <div className={classes.desc}>{props.area}m</div>
+                    </div>
+                    <div className={classes.section}>
+                        <div className={classes.first}>
+                            <div className={classes.icon}><img src='/assets/icons/location/map.png' /></div>
+                            <div className={classes.desc}>{props.region.city.name} , {props.region.name}</div>
+                        </div>
+                        <div className={classes.couple}>
+                            <p className={classes.smallp}>إضافة إلى المفضلة</p>
+                            <button type="button" className={`${classes.addicon} ${classes.tooltip}`} onClick={(e) => {
+                                e.stopPropagation();
+                                addTofavHandler();
+                            }}>
+                                <img className={classes.addimg} src="/assets/icons/addtofav/add-button.png" />
+                                <span className={classes.tooltiptext}>إضافة إلى المفضلة</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div className={classes.section}>
+                        <div className={classes.first}>
+                            <div className={classes.icon}><img src='/assets/icons/date/calendar.png' /></div>
+                            <div className={classes.desc}>{formattedDate}</div>
+                        </div>
+                        <div className={translationMap[props.subscription] == 'مميز' ? classes.specialproperty : translationMap[props.subscription] == 'حصري' ? classes.exclusiveproperty : ''}>{translationMap[props.subscription] != 'مجاني' && translationMap[props.subscription]}</div>
+                    </div>
+                </div>
+                {loading && <div className={classes.overlay}>
                     <div className={classes.spinner}></div>
                     <p>جار التحميل...</p>
                 </div>}
+                {mountConfirm && ReactDOM.createPortal(<Confirm text={confirmText} unMount={unMountHandler} />, document.getElementById("feedback_modal_root"))}
             </div>
-            <div className={classes.propdata}>
-                <div className={classes.section}>
-                    <div className={classes.desc}><p>{props.title}</p></div>
-                    <div className={classes.desc}>{translationMap[props.purpose]}</div>
-                </div>
-                <div className={classes.section}>
-                    <div className={classes.first}>
-                        <div className={classes.icon}><img src='/assets/icons/propertyprice/price.png' /></div>
-                        <div className={classes.desc}>${props.price}</div>
-                    </div>
-                    <div className={classes.desc}>{props.area}m</div>
-                </div>
-                <div className={classes.section}>
-                    <div className={classes.first}>
-                        <div className={classes.icon}><img src='/assets/icons/location/map.png' /></div>
-                        <div className={classes.desc}>{props.region.city.name} , {props.region.name}</div>
-                    </div>
-                    <div className={classes.couple}>
-                        <p className={classes.smallp}>إضافة إلى المفضلة</p>
-                        <button type="button" className={`${classes.addicon} ${classes.tooltip}`} onClick={(e) => {
-                            e.stopPropagation();
-                            addTofavHandler();
-                        }}>
-                            <img className={classes.addimg} src="/assets/icons/addtofav/add-button.png" />
-                            <span className={classes.tooltiptext}>إضافة إلى المفضلة</span>
-                        </button>
-                    </div>
-                </div>
-                <div className={classes.section}>
-                    <div className={classes.first}>
-                        <div className={classes.icon}><img src='/assets/icons/date/calendar.png' /></div>
-                        <div className={classes.desc}>{formattedDate}</div>
-                    </div>
-                    <div className={translationMap[props.subscription] == 'مميز' ? classes.specialproperty : translationMap[props.subscription] == 'حصري' ? classes.exclusiveproperty : ''}>{translationMap[props.subscription] != 'مجاني' && translationMap[props.subscription]}</div>
-                </div>
-            </div>
-            {loading && <div className={classes.overlay}>
-                <div className={classes.spinner}></div>
-                <p>جار التحميل...</p>
-            </div>}
-            {mountConfirm && ReactDOM.createPortal(<Confirm text={confirmText} unMount={unMountHandler} />, document.getElementById("feedback_modal_root"))}
-        </div></Card>
+        </Link>
+    </Card>
     )
 }
 

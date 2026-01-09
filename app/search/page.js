@@ -176,7 +176,6 @@ const SearchPage = async ({ searchParams }) => {
             },
         }
     );
-    console.log(properties);
 
     return <div className="min-h-screen">
         <Navbar mainpage={false} />

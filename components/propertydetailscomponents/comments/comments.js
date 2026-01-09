@@ -62,7 +62,7 @@ const CommentsSection = ({ id }) => {
             id: timestamp,
             comment: text,
             createdAt: now,
-            user: { username: username }
+            user: { username: username, reviews: [{ rating: rating }] }
         };
 
         try {
@@ -75,7 +75,7 @@ const CommentsSection = ({ id }) => {
             }
             setLoading(false);
         } catch (e) {
-            console.log('فشل التعقليق', e);
+            console.log('فشل التعليق', e);
             setLoading(false);
         }
 
@@ -91,7 +91,6 @@ const CommentsSection = ({ id }) => {
             setLoading(true);
             const res = await addReviewRatingServer(id, rating);
             const data = await JSON.parse(res.data);
-            console.log(data);
             setLoading(false);
         } catch {
             console.log('فشل التقييم');
@@ -117,7 +116,7 @@ const CommentsSection = ({ id }) => {
                             <div className={classes.ratingFix}>
                                 <Rating
                                     readonly={true}
-                                    initialValue={comment.user.reviews[0].rating}
+                                    initialValue={comment.user?.reviews[0]?.rating || 0}
                                     size={24}
                                     fillColor="#ffb71b"
                                     emptyColor="#dbdfe1"

@@ -1,5 +1,5 @@
 import PropertyClient from "./propertyClient";
-
+import prisma from "@/lib/prisma";
 const PropertyDetails = async ({ params }) => {
     const { id } = await params;
     console.log("Property ID:", id);
