@@ -5,6 +5,7 @@ import Select from "react-select";
 import { createPortal } from "react-dom";
 import Loading from "../loading/loading";
 import { addCityServer, addGovernorateServer, addRegionServer } from "@/app/dashboard/location-management/mutate";
+import { getCities, getGovernoratesServer } from "@/app/addproperty/[id]/get-data";
 
 
 const getUnitReversed = (unit) => {
@@ -51,25 +52,51 @@ const AddLocationModal = ({ passedUnit, locations, unMount, updateUnit }) => {
     }, [passedUnit]);
 
     useEffect(() => {
+        setGov(null);
+        setCity(null);
+        setCities([]);
+        setAllCities([]);
+        setText("");
         if (unit === "governorate") return;
-        const unitIndex = getUnitReversed("governorate")[0];
-        const formatted = locations[unitIndex].map(governorate => { return { value: governorate.id, label: governorate.name } });
-        setGovs(formatted);
+        const fetchGovs = async () => {
+            try {
+                setLoading(true);
+                const res = await getGovernoratesServer();
+                const formatted = res.map(governorate => { return { value: governorate.id, label: governorate.name } });
+                setGovs(formatted);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (govs.length === 0)
+            fetchGovs();
     }, [unit]);
 
     useEffect(() => {
-        if (!gov || unit === "governorate") {
+        if (!gov || unit !== "region") {
             setCity(null);
             setCities([]);
             setAllCities([]);
             return
         };
-        const unitIndex = getUnitReversed("city")[0];
-        const formatted = locations[unitIndex].filter(city => city.governorateId === gov.value).map(city => { return { value: city.id, label: city.name } });
-        setAllCities(formatted);
-        const maincity = formatted.find(city => city.label === gov.label);
-        const rest = formatted.slice(0, 20).filter(city => !maincity || city.value !== maincity.value);
-        setCities([maincity, ...rest].filter(Boolean));
+        const fetchCities = async () => {
+            try {
+                setLoading(true);
+                const res = await getCities(gov.value);
+                const formatted = res.map(city => { return { value: city.id, label: city.name } });
+                setAllCities(formatted);
+                const maincity = formatted.find(city => city.label === gov.label);
+                const rest = formatted.slice(0, 20).filter(city => !maincity || city.value !== maincity.value);
+                setCities([maincity, ...rest].filter(Boolean));
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCities();
     }, [gov]);
 
 

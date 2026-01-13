@@ -66,8 +66,6 @@ const ViewUserModal = ({ id, unMount }) => {
                 setUserData(res);
             } catch (e) {
                 console.log(e);
-            } finally {
-                setLoading(false);
             }
         };
         const fetchUserProperties = async (id) => {

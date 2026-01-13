@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import Loading from "../loading/loading";
 import { useAdminContext } from "./listen";
+import { useQuery } from "@tanstack/react-query";
 
 const options = [
     { value: "desc", label: "الأحدث" },
@@ -20,7 +21,7 @@ const getPages = (current, total) => {
         return pages;
     }
     pages.push(1);
-    if (current > 4) pages.push("...");
+    if (current >= 4) pages.push("...");
 
     const start = Math.max(2, current - 1);
     const end = Math.min(total - 1, current + 1);
@@ -31,19 +32,16 @@ const getPages = (current, total) => {
 };
 
 
-const ComplaintsClient = ({ complaints }) => {
+const ComplaintsClient = ({ total }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState("");
-    const [displayedComplaints, setDisplayedComplaints] = useState([]);
+    const [querySearch, setQuerySearch] = useState("");
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const { fetchcount } = useAdminContext();
 
-    const complaintsPerPage = 9;
-    const lastComplaint = currentPage * complaintsPerPage;
-    const firstComplaint = lastComplaint - complaintsPerPage;
-    const totalPages = Math.ceil(displayedComplaints.length / complaintsPerPage);
+    const complaintsPerPage = 3;
+    const totalPages = Math.ceil(total / complaintsPerPage);
 
     const router = useRouter();
     const pages = getPages(currentPage, totalPages);
@@ -59,40 +57,12 @@ const ComplaintsClient = ({ complaints }) => {
         }
     };
 
-    useEffect(() => {
-        setDisplayedComplaints(complaints);
-    }, [complaints]);
-
     const searchHandler = (e) => {
         setSearchText(e.target.value);
-        applyFilters(e.target.value, selected?.value);
     };
 
     const orderHandler = (option) => {
         setSelected(option);
-        applyFilters(searchText, option?.value);
-    };
-
-    const applyFilters = (search, order) => {
-        let result = [...complaints];
-        if (search) {
-            result = result.filter(complaint =>
-                complaint.name.toLowerCase().includes(search.toLowerCase()));
-        }
-        switch (order) {
-            case "desc":
-                result.sort((a, b) =>
-                    new Date(b.createdAt) - new Date(a.createdAt));
-                break;
-            case "asc":
-                result.sort((a, b) =>
-                    new Date(a.createdAt) - new Date(b.createdAt));
-                break;
-            default:
-                break;
-        }
-        setDisplayedComplaints(result);
-        setCurrentPage(1);
     };
 
     const markReadHandler = async (id) => {
@@ -100,7 +70,6 @@ const ComplaintsClient = ({ complaints }) => {
             setLoading(true);
             const res = await markReadServer(id);
             if (res.ok) {
-                fetchcount();
                 router.refresh();
             }
         } catch (e) {
@@ -110,16 +79,42 @@ const ComplaintsClient = ({ complaints }) => {
         }
     };
 
+    const triggerSearch = () => {
+        setQuerySearch(searchText);
+    };
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [querySearch, selected]);
+
+    const { data, isFetching } = useQuery({
+        queryKey: ["complaints", currentPage, querySearch, selected?.value],
+        queryFn: async () => {
+            try {
+                const res = await fetch(`/api/complaints?page=${currentPage}&search=${querySearch}&filter=${selected?.value}`,
+                    { method: "GET", headers: { "Accept": "application/json" } });
+                return res.json();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        keepPreviousData: true,
+        staleTime: 1000 * 60 * 2,
+    });
+
     return <div className={classes.users_client}>
-        {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
+        {(loading || isFetching) && createPortal(<Loading />, document.getElementById("loading_modal"))}
         <div className={classes.search_filter}>
-            <input
-                className={classes.searchInput}
-                type="search"
-                placeholder="ابحث عن  شكوى حسب اسم المستخدم"
-                value={searchText}
-                onChange={searchHandler}
-            />
+            <div className={classes.searchWrapper}>
+                <input
+                    className={classes.searchInput}
+                    type="search"
+                    placeholder="ابحث عن  شكوى حسب اسم المستخدم"
+                    value={searchText}
+                    onChange={searchHandler}
+                />
+                <button className={classes.searchBtn} onClick={triggerSearch}>ابحث</button>
+            </div>
             <Select
                 styles={{
                     control: (base) => ({
@@ -139,7 +134,7 @@ const ComplaintsClient = ({ complaints }) => {
             />
         </div>
         <div className={classes.users}>
-            {displayedComplaints.slice(firstComplaint, lastComplaint).map(complaint => <div key={complaint.id} className={classes.user}>
+            {data && data.length > 0 && data.map(complaint => <div key={complaint.id} className={classes.user}>
                 <p className={classes.user_name}>الاسم: {complaint.name}</p>
                 <p className={classes.user_email}>الايميل: {complaint.email}</p>
                 <p className={classes.type}>نوع الشكوى : {complaint.complaintType}</p>

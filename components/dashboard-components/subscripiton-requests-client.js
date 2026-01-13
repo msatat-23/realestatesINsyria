@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import classes from "./subscripiton-requests-client.module.css";
 import Select from "react-select";
 import SubscriptionRequestContainer from "./subscription-request-container";
+import { useQuery } from "@tanstack/react-query";
+import { createPortal } from "react-dom";
+import Loading from "../loading/loading";
 
 
 const getPages = (current, total) => {
@@ -28,17 +31,15 @@ const options = [
 ];
 
 
-const SubscriptionRequestsClient = ({ subscriptionRequests }) => {
+const SubscriptionRequestsClient = ({ total }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState("");
-    const [displayedRequests, setDisplayedRequests] = useState([]);
-    const [selected, setSelected] = useState(null);
+    const [querySearch, setQuerySearch] = useState("");
+    const [selected, setSelected] = useState({ value: "desc", label: "الأحدث" });
 
 
-    const requestsPerPage = 9;
-    const lastRequest = currentPage * requestsPerPage;
-    const firstRequest = lastRequest - requestsPerPage;
-    const totalPages = Math.ceil(displayedRequests.length / requestsPerPage);
+    const requestsPerPage = 3;
+    const totalPages = Math.ceil(total / requestsPerPage);
 
     const pages = getPages(currentPage, totalPages);
 
@@ -53,52 +54,49 @@ const SubscriptionRequestsClient = ({ subscriptionRequests }) => {
         }
     };
 
-    useEffect(() => {
-        setDisplayedRequests(subscriptionRequests);
-    }, [subscriptionRequests]);
-
     const searchHandler = (e) => {
         setSearchText(e.target.value);
-        applyFilters(e.target.value, selected?.value);
     };
 
     const orderHandler = (option) => {
         setSelected(option);
-        applyFilters(searchText, option?.value);
     };
 
-    const applyFilters = (search, order) => {
-        let result = [...subscriptionRequests];
-        if (search) {
-            result = result.filter(request =>
-                request?.user?.username.toLowerCase().includes(search.toLowerCase()));
-        }
-        switch (order) {
-            case "desc":
-                result.sort((a, b) =>
-                    new Date(b.createdAt) - new Date(a.createdAt));
-                break;
-            case "asc":
-                result.sort((a, b) =>
-                    new Date(a.createdAt) - new Date(b.createdAt));
-                break;
-            default:
-                break;
-        }
-        setDisplayedRequests(result);
+    useEffect(() => {
         setCurrentPage(1);
-    };
+    }, [querySearch, selected]);
 
+    const { data, isFetching } = useQuery({
+        queryKey: ["subscriptionRequests", currentPage, querySearch, selected?.value],
+        queryFn: async () => {
+            try {
+                const res = await fetch(`/api/subRequests?page=${currentPage}&search=${querySearch}&filter=${selected?.value}`,
+                    { method: "GET", headers: { "Accept": "application/json" } });
+                return res.json();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        keepPreviousData: true,
+        staleTime: 1000 * 60 * 2,
+    });
+
+    const triggerSearch = () => {
+        setQuerySearch(searchText);
+    };
 
     return <div className={classes.container}>
         <div className={classes.search_filter}>
-            <input
-                className={classes.searchInput}
-                type="search"
-                placeholder="ابحث عن الطلبات باستخدام اسم المستخدم"
-                value={searchText}
-                onChange={searchHandler}
-            />
+            <div className={classes.searchWrapper}>
+                <input
+                    className={classes.searchInput}
+                    type="search"
+                    placeholder="ابحث عن الطلبات باستخدام اسم المستخدم"
+                    value={searchText}
+                    onChange={searchHandler}
+                />
+                <button className={classes.searchBtn} onClick={triggerSearch}>ابحث</button>
+            </div>
             <Select
                 styles={{
                     control: (base) => ({
@@ -118,7 +116,7 @@ const SubscriptionRequestsClient = ({ subscriptionRequests }) => {
             />
         </div>
         <div className={classes.requests_list}>
-            {displayedRequests.slice(firstRequest, lastRequest).map(request => {
+            {data && data.length > 0 && data.map(request => {
                 return <SubscriptionRequestContainer key={request.id} request={request} />
             })}
         </div>
@@ -143,6 +141,7 @@ const SubscriptionRequestsClient = ({ subscriptionRequests }) => {
                 <img src="/assets/icons/previous_icon/Prev.svg" alt="" />
             </button>
         </div>
+        {isFetching && createPortal(<Loading />, document.getElementById("loading_modal"))}
     </div>
 };
 export default SubscriptionRequestsClient;

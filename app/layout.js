@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReduxProvider } from "@/store/reduxprovider";
+import QueryProvider from "./react-query-provider";
 import { auth } from "@/auth";
 import "./globals.css";
 import "@/lib/init-server";
@@ -45,7 +46,9 @@ export default async function RootLayout({ children }) {
         <ReduxProvider session={session}>
           <AdminContextProvider>
             <NotificationsProvider userId={userId}>
-              {children}
+              <QueryProvider>
+                {children}
+              </QueryProvider>
             </NotificationsProvider>
           </AdminContextProvider>
           <div id="feedback_modal_root"></div>

@@ -15,21 +15,12 @@ const Users = async () => {
 
     const isSuperAdmin = role === "SUPERADMIN";
 
-    const users = await prisma.user.findMany({
-        select: {
-            id: true,
-            username: true,
-            role: true,
-            confirmedByAdmin: true,
-            createdAt: true,
-            _count: { select: { properties: true } }
-        },
-        orderBy: { createdAt: "desc" }
-    });
+
+    const total = await prisma.user.count();
 
     return <div className={classes.dashboard}>
         <SideBar role={role} />
-        <UsersClient users={users} />
+        <UsersClient total={total} />
     </div>
 };
 export default Users;

@@ -4,6 +4,13 @@ import classes from "./properties.module.css";
 import Select from "react-select";
 import PropertyContainer from "./property-container";
 import Loading from "../loading/loading";
+import { createPortal } from "react-dom";
+
+import {
+    useQuery
+} from "@tanstack/react-query";
+import Confirm from "../confirmcomponent/confirm";
+
 
 const options = [
     { value: "desc", label: "الأحدث" },
@@ -17,7 +24,7 @@ const getPages = (current, total) => {
         return pages;
     }
     pages.push(1);
-    if (current > 4) pages.push("...");
+    if (current >= 4) pages.push("...");
     const start = Math.max(2, current - 1);
     const end = Math.min(current + 1, total - 1);
     for (let i = start; i <= end; i++) pages.push(i);
@@ -25,22 +32,43 @@ const getPages = (current, total) => {
     pages.push(total);
     return pages;
 };
-const PropertiesClient = ({ properties }) => {
-    const [displayedProperties, setDisplayedProperties] = useState([]);
+const PropertiesClient = ({ total }) => {
+
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState("");
-    const [selected, setSelected] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selected, setSelected] = useState({ value: "desc", label: "الأحدث" });
     const [loading, setLoading] = useState(false);
 
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [confirmText, setConfirmText] = useState(false);
+
     const propertiesPerPage = 15;
-    const totalPages = Math.ceil(displayedProperties.length / propertiesPerPage);
-    const lastProperty = currentPage * propertiesPerPage;
-    const firstProperty = lastProperty - propertiesPerPage;
+    const totalPages = Math.ceil(total / propertiesPerPage);
+
     const pages = getPages(currentPage, totalPages);
 
+
     useEffect(() => {
-        setDisplayedProperties(JSON.parse(properties));
-    }, [properties]);
+        console.log(currentPage)
+    }, [currentPage])
+
+    const { data, isFetching } = useQuery({
+        queryKey: ["properties", currentPage, searchQuery, selected],
+        queryFn: async () => {
+            const res = await fetch(`/api/properties?page=${currentPage}&search=${searchQuery}&filter=${selected.value}`);
+            if (!res.ok) {
+                throw new Error(res.status.toString());
+            }
+            return res.json();
+        },
+        keepPreviousData: true,
+        staleTime: 1000 * 60 * 2,
+    });
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, selected]);
 
     const handlePrevious = () => {
         if (currentPage > 1) {
@@ -55,45 +83,34 @@ const PropertiesClient = ({ properties }) => {
 
     const searchHandler = (e) => {
         setSearchText(e.target.value);
-        applyFilters(e.target.value, selected?.value)
     };
 
     const orderHandler = (chosen) => {
         setSelected(chosen);
-        applyFilters(searchText, chosen?.value);
     };
 
-    const applyFilters = (search, order) => {
-        let result = [...JSON.parse(properties)];
-        if (search) {
-            result = result.filter(property =>
-                property.title.toLowerCase().includes(search.toLowerCase()));
-        }
-        switch (order) {
-            case "desc":
-                result.sort((a, b) =>
-                    new Date(b.createdAt) - new Date(a.createdAt));
-                break;
-            case "asc":
-                result.sort((a, b) =>
-                    new Date(a.createdAt) - new Date(b.createdAt));
-                break;
-            default:
-                break;
-        };
-        setDisplayedProperties(result);
-        setCurrentPage(1);
+    const hideConfirm = () => {
+        setShowConfirm(false);
+        setConfirmText("");
     };
+
+    const triggerSearch = () => {
+        setSearchQuery(searchText);
+    };
+
 
     return <div className={classes.container}>
         <div className={classes.search_filter}>
-            <input
-                className={classes.searchInput}
-                type="search"
-                placeholder="ابحث عن عقار"
-                value={searchText}
-                onChange={searchHandler}
-            />
+            <div className={classes.searchWrapper}>
+                <input
+                    className={classes.searchInput}
+                    type="search"
+                    placeholder="ابحث عن عقار"
+                    value={searchText}
+                    onChange={searchHandler}
+                />
+                <button className={classes.searchBtn} onClick={triggerSearch}>ابحث</button>
+            </div>
             <Select
                 styles={{
                     control: (base) => ({
@@ -114,8 +131,8 @@ const PropertiesClient = ({ properties }) => {
         </div>
         <div className={classes.propertiesSection}>
             <div className={classes.propertiesGrid}>
-                {displayedProperties && displayedProperties.length > 0 ? (
-                    displayedProperties.slice(firstProperty, lastProperty).map((property) => (
+                {data && data.length > 0 ? (
+                    data.map((property) => (
                         <PropertyContainer key={property.id} property={property} />
                     ))
                 ) : (
@@ -144,7 +161,8 @@ const PropertiesClient = ({ properties }) => {
                 <img src="/assets/icons/previous_icon/Prev.svg" alt="" />
             </button>
         </div>
-        {loading && <Loading />}
+        {showConfirm && createPortal(<Confirm text={confirmText} unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
+        {(loading || isFetching) && createPortal(<Loading />, document.getElementById("loading_modal"))}
     </div>
 };
 export default PropertiesClient;

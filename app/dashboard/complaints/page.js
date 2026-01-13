@@ -8,11 +8,12 @@ import { auth } from "@/auth";
 const Complaints = async () => {
     const session = await auth();
     const role = session?.user?.role;
-    const complaints = await prisma.complaint.findMany({ orderBy: { createdAt: "desc" } });
+
+    const total = await prisma.complaint.count();
 
     return <div className={classes.page}>
         <SideBar role={role} />
-        <ComplaintsClient complaints={complaints} />
+        <ComplaintsClient total={total} />
     </div>
 };
 export default Complaints;

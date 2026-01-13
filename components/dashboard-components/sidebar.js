@@ -12,7 +12,7 @@ const SideBar = ({ role }) => {
         { key: "main", label: "الرئيسية", to: "/dashboard" },
         { key: 'users', label: 'المستخدمين', to: "/dashboard/users", count: userCount },
         { key: 'properties', label: 'العقارات', to: "/dashboard/properties", count: propertyCount },
-        { key: 'locations', label: 'إدارة المواقع', to: "/dashboard/location-management" },
+        { key: 'locations', label: 'إدارة المواقع', to: "/dashboard/location-management?key=governorate&page=1" },
         { key: 'subscriptions', label: 'طلبات الاشتراك', to: "/dashboard/subscriptions", count: subRequestCount },
         { key: 'complaints', label: 'الشكاوي', to: "/dashboard/complaints", count: complaintCount },
     ];

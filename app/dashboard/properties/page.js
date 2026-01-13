@@ -13,17 +13,12 @@ const Properties = async () => {
         redirect("/");
     };
 
-    const properties = await prisma.property.findMany({
-        orderBy: { updatedAt: "desc" },
-        include: {
-            region: { include: { city: true } },
-            images: true
-        }
-    });
+
+    const total = await prisma.property.count();
 
     return <div className={classes.page}>
         <SideBar role={role} />
-        <PropertiesClient properties={JSON.stringify(properties)} />
+        <PropertiesClient total={total} />
     </div>
 };
 export default Properties;

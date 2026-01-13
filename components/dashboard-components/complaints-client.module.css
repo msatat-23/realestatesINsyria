@@ -15,6 +15,9 @@
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
+.searchWrapper {
+  position: relative;
+}
 .searchInput {
   width: 420px;
   height: 56px;
@@ -30,6 +33,22 @@
 .searchInput:focus {
   border-color: #557b97;
   box-shadow: 0 0 0 3px rgba(85, 123, 151, 0.15);
+}
+.searchBtn {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #557b97;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.searchBtn:hover {
+  background-color: #29475d;
 }
 .users {
   width: 100%;

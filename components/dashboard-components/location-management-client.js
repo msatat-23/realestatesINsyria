@@ -97,7 +97,7 @@ const getPages = (current, total) => {
         return pages;
     }
     pages.push(1);
-    if (current > 4) pages.push("...");
+    if (current >= 4) pages.push("...");
     const start = Math.max(2, current - 1);
     const end = Math.min(current + 1, total - 1);
     for (let i = start; i <= end; i++) pages.push(i);
@@ -121,13 +121,6 @@ const LocationManagementClient = ({ locations }) => {
 
     const router = useRouter();
 
-    const unitsPerPage = 15;
-    const totalPages = Math.ceil(displayedUnit.length / unitsPerPage);
-    const lastUnit = currentPage * unitsPerPage;
-    const firstUnit = lastUnit - unitsPerPage;
-    const pages = getPages(currentPage, totalPages);
-
-
     const unitIndex = getUnit(unit.value)[0];
     const unitCountIndex = getUnit(unit.value)[1];
 
@@ -139,25 +132,46 @@ const LocationManagementClient = ({ locations }) => {
 
     const btntext = getBtnText(unit.value);
 
+    const unitsPerPage = 15;
+    const totalPages = Math.ceil(chosenUnitCount / unitsPerPage);
+    const lastUnit = currentPage * unitsPerPage;
+    const firstUnit = lastUnit - unitsPerPage;
+    const pages = getPages(currentPage, totalPages);
+
     useEffect(() => {
         setDisplayedUnit(chosenUnit);
     }, [chosenUnit]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+        setDisplayedUnit([]);
+        router.push(`/dashboard/location-management?key=${unit.value}&page=1`);
+        router.refresh();
+    }, [unit]);
+
     const handlePrevious = () => {
         if (currentPage > 1) {
+            setDisplayedUnit([]);
+            router.push(`/dashboard/location-management?key=${unit.value}&page=${currentPage - 1}`);
             setCurrentPage(prev => prev - 1);
         }
     };
     const handleNext = () => {
         if (currentPage < totalPages) {
+            setDisplayedUnit([]);
+            router.push(`/dashboard/location-management?key=${unit.value}&page=${currentPage + 1}`);
             setCurrentPage(prev => prev + 1);
         }
     };
 
-    const searchHandler = (e) => {
+    const searchChange = (e) => {
         setSearchText(e.target.value);
-        let result = chosenUnit.filter(row => row.name.toLowerCase().includes(e.target.value.toLowerCase()));
-        setDisplayedUnit(result);
+    };
+
+    const searchHandler = () => {
+        setDisplayedUnit([]);
+        setCurrentPage(1);
+        router.push(`/dashboard/location-management?key=${unit.value}&page=1&search=${searchText}`);
     };
 
     const showModal = () => {
@@ -208,11 +222,13 @@ const LocationManagementClient = ({ locations }) => {
         router.refresh()
     }
 
+
+
     return <div className={classes.container}>
         {showConfirm && createPortal(<Confirm text="تم بنجاح ✓" unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
         {showConfirmDelete && createPortal(<ConfirmDelete unMount={hideDelete} confirm={deleteHandler} />, document.getElementById("confirm_delete_modal"))}
         {showAddModal && createPortal(<AddLocationModal passedUnit={unit.value} locations={locations} unMount={hideAddLocationModal} updateUnit={setDisplayedUnit} />, document.getElementById("add_location_modal"))}
-        {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
+        {(loading || displayedUnit.length === 0) && createPortal(<Loading />, document.getElementById("loading_modal"))}
         <div className={classes.searchAndFilter}>
             <Select
                 options={options}
@@ -221,13 +237,16 @@ const LocationManagementClient = ({ locations }) => {
                 onChange={(chosen) => setUnit(chosen)}
                 styles={selectCustomStyles}
             />
-            <input
-                className={classes.searchInput}
-                type="search"
-                placeholder={placeholder}
-                value={searchText}
-                onChange={searchHandler}
-            />
+            <div className={classes.searchWrapper}>
+                <input
+                    className={classes.searchInput}
+                    type="search"
+                    placeholder={placeholder}
+                    value={searchText}
+                    onChange={searchChange}
+                />
+                <button className={classes.searchBtn} onClick={searchHandler}>ابحث</button>
+            </div>
         </div>
         <div className={classes.addBtnContainer}>
             <button className={classes.addBtn} onClick={showModal}>
@@ -240,7 +259,7 @@ const LocationManagementClient = ({ locations }) => {
                 <tr>{cols.map(col => <th key={col.key}>{col.label}</th>)}</tr>
             </thead>
             <tbody>
-                {displayedUnit.slice(firstUnit, lastUnit).map(row => <tr key={row.id}>
+                {displayedUnit.map(row => <tr key={row.id}>
                     {cols.map(col => <th key={col.key}>
                         {(col.key.startsWith("_count") && unit.value === "governorate") && row._count?.cities}
                         {(col.key === "governorate" && unit.value === "city") && row.governorate?.name}
@@ -264,6 +283,8 @@ const LocationManagementClient = ({ locations }) => {
                     onClick={() => {
                         if (Number(page)) {
                             setCurrentPage(page);
+                            setDisplayedUnit([]);
+                            router.push(`/dashboard/location-management?key=${unit.value}&page=${page}`);
                         }
                     }}
                     style={{ width: Number(page) > 99 ? "48px" : "36px" }}

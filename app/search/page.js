@@ -174,6 +174,7 @@ const SearchPage = async ({ searchParams }) => {
                 subscription: true,
                 createdAt: true
             },
+            take: 100
         }
     );
 

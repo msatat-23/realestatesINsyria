@@ -9,17 +9,11 @@ const Subscriptions = async () => {
     const session = await auth();
     const role = session?.user?.role;
 
-    const subscriptionRequests = await prisma.subscriptionRequest.findMany({
-        orderBy: { createdAt: "desc" },
-        include: {
-            user: { select: { id: true, username: true, subscription: true } }
-        }
-    });
-
+    const total = await prisma.subscriptionRequest.count();
 
     return <div className={classes.page}>
         <SideBar role={role} />
-        <SubscriptionRequestsClient subscriptionRequests={subscriptionRequests} />
+        <SubscriptionRequestsClient total={total} />
     </div>
 };
 export default Subscriptions;

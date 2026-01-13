@@ -5,7 +5,8 @@ import Select from "react-select";
 import { createPortal } from "react-dom";
 import ViewUserModal from "./view-user";
 import UserContainer from "./user-container";
-
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../loading/loading";
 
 const options = [
     { value: "desc", label: "الأحدث" },
@@ -32,12 +33,11 @@ const getPages = (current, total) => {
 };
 
 
-
-const UsersClient = ({ users }) => {
+const UsersClient = ({ total }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState("");
-    const [displayedUsers, setDisplayedUsers] = useState([]);
-    const [selected, setSelected] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selected, setSelected] = useState({ value: "desc", label: "الأحدث" });
     const [viewUser, setViewUser] = useState(false);
     const [viewedUserId, setViewedUserId] = useState(null);
 
@@ -45,9 +45,31 @@ const UsersClient = ({ users }) => {
     const usersPerPage = 9;
     const lastUser = currentPage * usersPerPage;
     const firstUser = lastUser - usersPerPage;
-    const totalPages = Math.ceil(displayedUsers.length / usersPerPage);
+    const totalPages = Math.ceil(total / usersPerPage);
 
     const pages = getPages(currentPage, totalPages);
+
+
+    const { data, isFetching } = useQuery({
+        queryKey: ["users", currentPage, searchQuery, selected?.value],
+        queryFn: async () => {
+            try {
+                const res = await fetch(`/api/users?page=${currentPage}&search=${searchQuery}&filter=${selected.value}`,
+                    { method: "GET", headers: { "Accept": "application/json" } });
+                if (!res.ok) {
+                    throw new Error(res.status.toString());
+                }
+                return res.json();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        keepPreviousData: true,
+        staleTime: 1000 * 60 * 2,
+    });
+
+
+    console.log(data);
 
     const handlePrevious = () => {
         if (currentPage > 1) {
@@ -60,54 +82,12 @@ const UsersClient = ({ users }) => {
         }
     };
 
-    useEffect(() => {
-        setDisplayedUsers(users);
-    }, [users]);
-
     const searchHandler = (e) => {
         setSearchText(e.target.value);
-        applyFilters(e.target.value, selected?.value);
     };
 
     const orderHandler = (option) => {
         setSelected(option);
-        applyFilters(searchText, option?.value);
-    };
-
-    const applyFilters = (search, order) => {
-        let result = [...users];
-        if (search) {
-            result = result.filter(user =>
-                user.username.toLowerCase().includes(search.toLowerCase()));
-        }
-        switch (order) {
-            case "desc":
-                result.sort((a, b) =>
-                    new Date(b.createdAt) - new Date(a.createdAt));
-                break;
-            case "asc":
-                result.sort((a, b) =>
-                    new Date(a.createdAt) - new Date(b.createdAt));
-                break;
-            case "propCountDesc":
-                result.sort((a, b) =>
-                    b._count.properties - a._count.properties);
-                break;
-            case "propCountAsc":
-                result.sort((a, b) =>
-                    a._count.properties - b._count.properties
-                );
-                break;
-            default:
-                break;
-        }
-        setDisplayedUsers(result);
-        setCurrentPage(1);
-    };
-
-    const showUserHandler = (id) => {
-        setViewUser(true);
-        setViewedUserId(id);
     };
 
     const hideUserHandler = () => {
@@ -115,17 +95,23 @@ const UsersClient = ({ users }) => {
         setViewedUserId(null);
     };
 
-
+    const triggerSearch = () => {
+        setSearchQuery(searchText);
+    };
 
     return <div className={classes.users_client}>
         <div className={classes.search_filter}>
-            <input
-                className={classes.searchInput}
-                type="search"
-                placeholder="ابحث عن مستخدم باستخدام اسم المستخدم"
-                value={searchText}
-                onChange={searchHandler}
-            />
+            <div className={classes.searchWrapper}>
+                <input
+                    className={classes.searchInput}
+                    type="search"
+                    placeholder="ابحث عن مستخدم باستخدام اسم المستخدم"
+                    value={searchText}
+                    onChange={searchHandler}
+                    dir="rtl"
+                />
+                <button className={classes.searchBtn} onClick={triggerSearch}>ابحث</button>
+            </div>
             <Select
                 styles={{
                     control: (base) => ({
@@ -145,7 +131,8 @@ const UsersClient = ({ users }) => {
             />
         </div>
         <div className={classes.users}>
-            {displayedUsers.slice(firstUser, lastUser).map(user => <UserContainer key={user.id} user={user} setViewedUserId={setViewedUserId} setViewUser={setViewUser} />)}
+            {data && data.length > 0 &&
+                data.map(user => <UserContainer key={user.id} user={user} setViewedUserId={setViewedUserId} setViewUser={setViewUser} />)}
         </div>
         <div className={classes.pagination_container}>
             <button className={classes.pagination_btn} onClick={handleNext}>
@@ -168,6 +155,7 @@ const UsersClient = ({ users }) => {
                 <img src="/assets/icons/previous_icon/Prev.svg" alt="" />
             </button>
         </div>
+        {isFetching && createPortal(<Loading />, document.getElementById("loading_modal"))}
         {viewUser && createPortal(<ViewUserModal id={viewedUserId} unMount={hideUserHandler} />, document.getElementById("view_user_modal_root"))}
     </div>
 };
