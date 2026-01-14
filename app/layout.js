@@ -12,15 +12,7 @@ import { Readex_Pro } from 'next/font/google';
 import NotificationsProvider from "@/components/notifications/notifications-provider";
 import { AdminContextProvider } from "@/components/dashboard-components/listen";
 const Readex_Pro_Font = Readex_Pro({ subsets: ['arabic'], weight: '400' });
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "realestatesINsyria",
@@ -40,7 +32,7 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${Readex_Pro_Font.className}`}
+        className={`antialiased ${Readex_Pro_Font.className}`}
       >
 
         <ReduxProvider session={session}>
