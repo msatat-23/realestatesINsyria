@@ -75,7 +75,7 @@ export default async function Home() {
 
       <div className={`${classes.background} ${Readex_Pro_Font.className}`}>
         <Navbar />
-        {role !== "USER" && <div className={classes.dashBtnContainer}>
+        {(role !== "USER" && role) && <div className={classes.dashBtnContainer}>
           <Link href="/dashboard" className={classes.dashBtn}>
             لوحة تحكم المستخدم
           </Link>
