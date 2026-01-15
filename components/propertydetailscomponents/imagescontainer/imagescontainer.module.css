@@ -14,7 +14,7 @@
 }
 .mainimage {
   padding: 5px;
-
+  height: 50%;
   width: 100%;
   overflow: hidden;
 }
@@ -33,10 +33,12 @@
 .bottomimages {
   display: flex;
   flex-direction: row-reverse;
+  height: 50%;
 }
 
 .bottomimages > div {
   width: 50%;
+  height: 100%;
   overflow: hidden;
   position: relative;
   padding: 5px;

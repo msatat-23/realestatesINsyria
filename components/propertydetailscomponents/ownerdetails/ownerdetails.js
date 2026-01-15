@@ -32,7 +32,7 @@ const Ownerdetails = async ({ id }) => {
         </div>
         <div className={classes.credentials}>
             <p className={classes.property}>رقم الهاتف : </p>
-            <p className={classes.value}>{userData.phone || 'غير متوفر'}</p>
+            <p className={classes.value} dir='ltr'>{userData.phone || 'غير متوفر'}</p>
         </div>
         <Link className={classes.viewBtn} href={`/viewuserdetails/${userData.id}`}>عرض المستخدم</Link>
     </div>)
