@@ -77,7 +77,7 @@ export default async function Home() {
         <Navbar />
         {(role !== "USER" && role) && <div className={classes.dashBtnContainer}>
           <Link href="/dashboard" className={classes.dashBtn}>
-            لوحة تحكم المستخدم
+            لوحة تحكم الأدمن
           </Link>
         </div>}
         <Search />

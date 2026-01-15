@@ -28,7 +28,10 @@ const PropertyDetails = async ({ params }) => {
             }
         }),
         prisma.image.findMany({ where: { propertyId: parseInt(id) } }),
-        prisma.propertyAmenity.findMany({ where: { propertyId: parseInt(id) } })
+        prisma.propertyAmenity.findMany({
+            where: { propertyId: parseInt(id) },
+            include: { amenity: { select: { name: true } } }
+        })
     ]);
 
     console.log(property);
