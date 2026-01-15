@@ -42,7 +42,7 @@ export const AdminContextProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("ws_token");
-        socket.current = new WebSocket(`ws://localhost:3002?token=${token}`);
+        socket.current = new WebSocket(`ws://realestatesinsyria-adminserver-production.up.railway.app?token=${token}`);
         socket.current.onopen = () => {
             setConnected(true);
             console.log("🟢connected to admin-server");
