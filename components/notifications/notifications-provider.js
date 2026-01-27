@@ -42,7 +42,7 @@ const NotificationsProvider = ({ userId, children }) => {
     useEffect(() => {
         if (!userId) return;
         socketRef.current = new WebSocket(
-            `ws://localhost:3001?userId=${userId}`
+            `wss://realestatesinsyria-websocket-server-production.up.railway.app?userId=${userId}`
         );
 
         socketRef.current.onopen = () => {
