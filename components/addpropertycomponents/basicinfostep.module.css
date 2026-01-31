@@ -2,7 +2,7 @@
   width: calc(100% - 200px);
   display: flex;
   margin: 32px auto 10px auto;
-  margin-bottom: 0;
+  margin-bottom: 50px;
   justify-content: space-between;
 }
 .basicinfocontainer {

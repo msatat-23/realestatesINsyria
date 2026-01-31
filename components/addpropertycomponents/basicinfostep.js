@@ -654,7 +654,7 @@ const BasicInfo = (props) => {
             type="button"
             disabled={!NextStep()}
             onClick={submit}
-            className={`text-white py-3 mb-2 px-8 rounded-[8px] mx-32 text-[18px] font-bold transition-all duration-300
+            className={`text-white py-3 mb-[150px] px-8 rounded-[8px] mx-32 text-[18px] font-bold transition-all duration-300
     ${!NextStep()
                     ? 'bg-gray-700 hover:bg-gray-700 cursor-not-allowed'
                     : 'bg-sky-900 hover:bg-sky-700 cursor-pointer'}
