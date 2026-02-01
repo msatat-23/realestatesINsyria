@@ -48,7 +48,7 @@ export const AdminContextProvider = ({ children }) => {
             console.log("🟢connected to admin-server");
         };
         socket.current.onmessage = (msg) => {
-            const data = JSON.parse(msg.data);
+            const data = msg.data;
             if (data.type === "NEW_INSERTED") {
                 console.log(data.payload);
                 fetchcount();

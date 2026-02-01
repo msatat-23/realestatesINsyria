@@ -13,7 +13,9 @@ import {
     validatePhone,
     validadteEmail,
     passwordValidation,
-    passwordMatchValidation
+    passwordMatchValidation,
+    validateFirstName,
+    validateLastName
 } from '@/lib/validation/uservalidators';
 import { Input } from '@/components/form/input';
 
@@ -35,8 +37,7 @@ const SignUpClient = () => {
             value: state.values.firstName || '',
             onBlur: () => {
                 const firstname = state.values.firstName;
-                const lastname = state.values.lastName;
-                const validation = validateName(firstname, lastname, lastname === '');
+                const validation = validateFirstName(firstname);
                 if (!validation) {
                     dispatch({ type: 'RESET_ERROR', field: 'name' });
                 }
@@ -51,9 +52,8 @@ const SignUpClient = () => {
             onChange: (e) => { dispatch({ type: 'SET_FIELD', field: 'lastName', value: e.target.value }) },
             value: state.values.lastName || '',
             onBlur: () => {
-                const firstname = state.values.firstName;
                 const lastname = state.values.lastName;
-                const validation = validateName(firstname, lastname);
+                const validation = validateLastName(lastname);
                 if (validation) {
                     dispatch({ type: 'SET_ERROR', field: 'name', value: `${validation}` });
                 }
