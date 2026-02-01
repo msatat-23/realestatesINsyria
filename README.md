@@ -1,37 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# RealEstate Web Application
 
-## Getting Started
+A full-stack real estate platform built with **Next.js**, **Prisma**, and **PostgreSQL**, featuring authentication, property management, search, subscriptions, real-time notifications, and a full admin dashboard.
 
-First, run the development server:
+---
+
+## Table of Contents
+
+- [Features](#features)
+  - [Authentication](#authentication)
+  - [Property Management](#property-management)
+  - [Search and Filtering](#search-and-filtering)
+  - [User Profile](#user-profile)
+  - [Dashboard](#dashboard)
+  - [Advanced Features](#advanced-features)
+- [Technologies Used](#technologies-used)
+- [Screenshots](#screenshots)
+- [Installation](#installation)
+- [Future Improvements](#future-improvements)
+- [License](#license)
+
+---
+
+## Features
+
+### Authentication
+
+- Sign up with first name, last name, username, phone, email, and password with confirmation.
+- Email confirmation using a token.
+- Passwords encrypted with **bcrypt**.
+- Login with email and password using **NextAuth**.
+- Optional **2FA** code verification.
+- Forgot password feature using email token to reset password.
+
+### Property Management
+
+- Users can add properties via a multi-step form:
+  - Title, description, type, status, purpose.
+  - Exact location (governorate, city, region, street).
+  - Images and video upload.
+  - Amenities selection.
+  - Validation on all fields.
+- Notifications for property review and acceptance/refusal.
+- Users can update, delete, or save properties.
+- Users can subscribe for additional features.
+
+### Search and Filtering
+
+- Text search for properties.
+- Filter by type, status, price, area, and other options.
+- Advanced search by multiple filters simultaneously.
+- **Pagination** implemented for search results.
+
+### User Profile
+
+- Edit personal info: name, username, phone, password, profile image.
+- View added properties.
+- Profile settings: change password, privacy settings, enable 2FA, sign out, delete account.
+- Communication with platform administration.
+
+### Dashboard
+
+The dashboard supports **three roles**: **User**, **Admin**, and **SuperAdmin**.
+
+- **User**: regular platform user.
+- **Admin**: can manage almost all dashboard features.
+- **SuperAdmin**: can add/remove admins in addition to all admin features.
+
+#### Dashboard Sections:
+
+1. **Main Page**: platform statistics (properties, users, complaints, subscriptions, branches).
+2. **Users Section**: view user details, properties, remove user, alter subscriptions.
+3. **Properties Section**: accept/refuse property, view property details, delete property.
+4. **Location Management**: view/add/remove governorates, regions, cities, with filters.
+5. **Subscriptions & Complaints**: manage user subscriptions and complaints.
+6. **SuperAdmin Exclusive**: add user, admin, or superadmin with role assignment.
+7. **Pagination** applied to all dashboard lists (users, properties, complaints, subscriptions, locations).
+
+**Dashboard images are located in:** `/public/assets/images/dashboard_images`
+
+---
+
+### Advanced Features
+
+- **WebSocket Real-Time Notifications**:
+  - Users and Admins receive real-time updates when properties are added, updated, deleted, or when subscriptions/complaints/users change.
+  - Admin notifications secured with **JWT authentication**.
+  - WebSocket server hosted on **Railway**.
+
+- **Cloudinary Media Upload**:
+  - Upload images and videos to Cloudinary.
+  - Supports deletion and updates of media files when properties are modified or deleted.
+
+---
+
+## Technologies Used
+
+- **Frontend:** Next.js, React, Tailwind CSS
+- **Backend:** Next.js API Routes, ServerActions, Prisma ORM
+- **Database:** PostgreSQL
+- **Authentication:** NextAuth, bcrypt, 2FA
+- **Real-Time Notifications:** WebSocket server (Railway)
+- **Media Storage:** Cloudinary
+- **Hosting:** Netlify (frontend) / custom backend server
+
+---
+
+## Screenshots
+
+Include important images of your platform (dashboard, property card, property details, etc.). Example:
+
+`![Dashboard Screenshot](./path-to-your-image.png)`  
+_Main dashboard showing platform statistics_
+
+`![Property Card](./path-to-your-image.png)`  
+_Property card view with basic info_
+
+`![Property Details](./path-to-your-image.png)`  
+_Detailed property page with images, video, and amenities_
+
+---
+
+## Installation
+
+1. Clone the repository:
 
 ```bash
+git clone https://github.com/msatat-23/realestatesINsyria.git
+cd realestatesINsyria
+npm install
+npx prisma migrate dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# realestatesINsyria" 
