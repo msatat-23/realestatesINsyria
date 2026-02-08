@@ -9,6 +9,7 @@ import Loading from "../loading/loading";
 import Confirm from "../confirmcomponent/confirm";
 import { useRouter } from "next/navigation";
 import { useAdminContext } from "./listen";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const roleTranslater = {
     "USER": "مستخدم عادي",
@@ -74,25 +75,25 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
         }
     }
 
-    const updateRole = async () => {
-        try {
-            setLoading(true);
-            const res = await updateUserRoleServer(user.id, role.value);
-            if (res.ok) {
-                setShowConfirm(true);
-                setTextConfirm("تم بنجاح ✓");
-                router.refresh();
-            }
-            if (res.error === "UNAUTHORIZED" || res.error === "INVALID ROLE PASSED") {
-                setShowConfirm(true);
-                setTextConfirm("!!" + res.error);
-            }
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const updateRole = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const res = await updateUserRoleServer(user.id, role.value);
+    //         if (res.ok) {
+    //             setShowConfirm(true);
+    //             setTextConfirm("تم بنجاح ✓");
+    //             router.refresh();
+    //         }
+    //         if (res.error === "UNAUTHORIZED" || res.error === "INVALID ROLE PASSED") {
+    //             setShowConfirm(true);
+    //             setTextConfirm("!!" + res.error);
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     const hideConfirm = () => {
         setShowConfirm(false);
@@ -121,9 +122,33 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
         }
     };
 
+    const updateUserRole = async () => {
+        const res = await updateUserRoleServer(user.id, role.value);
+        if (!res.ok) throw new Error(res.error || "حدث خطأ");
+
+        return res;
+    };
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: updateUserRole,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["users"] })
+        },
+        onError: (error) => {
+            setShowConfirm(true);
+            setTextConfirm(error.message);
+        },
+    });
+
+    const updateRole = () => {
+        mutation.mutate();
+    };
+
     return <div key={user.id} className={classes.user}>
         {showConfirm && createPortal(<Confirm text={textConfirm} unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
-        {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
+        {mutation.isPending && createPortal(<Loading />, document.getElementById("loading_modal"))}
         {showDelete && createPortal(<ConfirmDelete unMount={hideDelete} confirm={deleteHandler} />, document.getElementById("confirm_delete_modal"))}
         <div className={classes.row}>
             <p className={classes.username}>{user.username}</p>
@@ -159,7 +184,7 @@ const UserContainer = ({ user, setViewUser, setViewedUserId }) => {
                 }}
             />
             <button className={classes.saveBtn} disabled={user.role === role?.value} onClick={updateRole}>
-                حفظ
+                {mutation.isPending ? "جاري الحفظ..." : "حفظ"}
             </button>
             <button className={classes.deleteBtn} disabled={user.role === "SUPERADMIN"} onClick={showDeleteHandler}>
                 حذف المستخدم
