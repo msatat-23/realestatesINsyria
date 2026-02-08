@@ -97,7 +97,7 @@ const Property = (props) => {
                     <img className={classes.img}
                         onLoad={() => setLoadingImage(false)}
                         onError={() => setLoadingImage(false)}
-                        src={image ? image : '/assets/pics/propertydumpic/2.png'} alt="propertypic"
+                        src={image} alt="propertypic"
                         loading="lazy"
                     />
                     {loadingImage && <div className={classes.imageOverlay}>

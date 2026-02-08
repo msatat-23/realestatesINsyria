@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import Confirm from "../confirmcomponent/confirm";
 import { useRouter } from "next/navigation";
 import { useAdminContext } from "./listen";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 const altImage = "/assets/pics/propertydumpic/ChatGPT Image Apr 28, 2025, 04_25_50 PM.png";
 
 const getSelectValue = (value) => {
@@ -46,8 +47,7 @@ const PropertyContainer = ({ property }) => {
     const { setPropertyCount } = useAdminContext();
 
     const createdAt = new Date(property.createdAt).toLocaleDateString();
-    const disabledSave = selected.label === getSelectValue(property.state).label ||
-        selected.label === selectedAfterSave.label;
+    const disabledSave = selected.value === getSelectValue(property.state).value;
 
 
     useEffect(() => {
@@ -55,45 +55,54 @@ const PropertyContainer = ({ property }) => {
         setSelected(chosen);
     }, [property]);
 
-    const saveHandler = async () => {
-        try {
-            setLoading(true);
-            const state = getSelectedToSend(selected.label);
-            console.log(state);
-            const res = await updateUserPropertyStateServer(property.id, state);
-            console.log(res);
-            if (res.ok) {
-                if (selected.label === "PEND") {
-                    setPropertyCount(prev => prev + 1);
-                }
-                else {
-                    setPropertyCount(prev => prev - 1);
-                }
-                setShowConfirm(true);
-                setTextConfirm("تم بنجاح ✓");
-                setSelectedAfterSave(selected);
-            }
-            else {
-                setShowConfirm(true);
-                setTextConfirm(res.error);
-            }
-        } catch (e) {
-            console.log(e);
-            setShowConfirm(true);
-            setTextConfirm(e);
-        } finally {
-            setLoading(false);
+    const updatePropertyState = async ({ id, state }) => {
+        const res = await updateUserPropertyStateServer(id, state);
+
+        if (!res.ok) {
+            throw new Error(res.error || "حدث خطأ");
         }
+
+        return res;
     };
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: updatePropertyState,
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["properties"],
+            });
+            setSelectedAfterSave(selected);
+        },
+
+        onError: (error) => {
+            setShowConfirm(true);
+            setTextConfirm(error.message);
+        },
+    });
+
+    const saveHandler = () => {
+        const state = getSelectedToSend(selected.value);
+
+        mutation.mutate({
+            id: property.id,
+            state,
+        });
+    };
+
 
     const hideConfirm = () => {
         setShowConfirm(false);
         setTextConfirm("");
-        router.refresh();
     };
 
     return <div className={classes.container}>
         <div className={classes.top_container}>
+            {mutation.isPending &&
+                createPortal(<Loading />, document.getElementById("loading_modal"))
+            }
             {loading && createPortal(<Loading />, document.getElementById("loading_modal"))}
             {showConfirm && createPortal(<Confirm text={textConfirm} unMount={hideConfirm} />, document.getElementById("feedback_modal_root"))}
             <div className={classes.imageWrapper}>
@@ -142,11 +151,11 @@ const PropertyContainer = ({ property }) => {
                     setSelected(selectedOption);
                 }}
             />
-            <button disabled={disabledSave}
+            <button disabled={disabledSave || mutation.isPending}
                 className={classes.saveBtn}
                 onClick={saveHandler}
             >
-                حفظ
+                {mutation.isPending ? "جاري الحفظ..." : "حفظ"}
             </button>
         </div>
     </div>
