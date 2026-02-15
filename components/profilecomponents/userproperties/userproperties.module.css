@@ -19,6 +19,7 @@
 .userproperties {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 20px;
   row-gap: 40px;
   flex-wrap: wrap;
@@ -169,5 +170,10 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  .container_p {
+    width: 100%;
   }
 }
