@@ -13,15 +13,17 @@ export default function useLogout() {
         try {
             setLoading(true);
 
-            await signOut({ redirect: true, callbackUrl: '/login' });
+            const data = await signOut({ redirect: false });
 
             dispatch(resetinfo());
 
             router.replace("/login");
             router.refresh();
+
             return { ok: true, message: "تم تسجيل الخروج بنجاح!" };
         } catch (err) {
             console.error("فشل تسجيل الخروج:", err);
+            try { dispatch(resetinfo()); } catch (e) { }
             router.replace("/login");
             return { ok: false, message: "فشل تسجيل الخروج" };
         } finally {
