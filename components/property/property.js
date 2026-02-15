@@ -126,6 +126,7 @@ const Property = (props) => {
                             <p className={classes.smallp}>إضافة إلى المفضلة</p>
                             <button type="button" className={`${classes.addicon} ${classes.tooltip}`} onClick={(e) => {
                                 e.stopPropagation();
+                                e.preventDefault();
                                 addTofavHandler();
                             }}>
                                 <img className={classes.addimg} src="/assets/icons/addtofav/add-button.png" />
