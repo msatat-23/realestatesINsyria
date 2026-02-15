@@ -30,8 +30,8 @@ const authConfig = {
                 return null;
             }
         }),
-
     ],
+    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
 };
 
 export default authConfig;
