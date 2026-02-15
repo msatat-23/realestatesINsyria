@@ -1,13 +1,8 @@
-import classes from "./page.module.css";
 import prisma from "@/lib/prisma";
-import SideBar from "@/components/dashboard-components/sidebar";
 import LocationManagementClient from "@/components/dashboard-components/location-management-client";
-import { auth } from "@/auth";
 
 
 const LocationManagement = async ({ searchParams }) => {
-    const session = await auth();
-    const role = session?.user?.role;
 
     const params = await searchParams;
     const page = params?.page || 1;
@@ -65,9 +60,6 @@ const LocationManagement = async ({ searchParams }) => {
     ]);
 
 
-    return <div className={classes.page}>
-        <SideBar role={role} />
-        <LocationManagementClient locations={locations} />
-    </div>
+    return <LocationManagementClient locations={locations} />
 };
 export default LocationManagement;

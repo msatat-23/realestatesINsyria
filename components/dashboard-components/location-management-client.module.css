@@ -1,5 +1,8 @@
 .container {
   width: 70%;
+
+  padding: 20px;
+  margin: auto;
   margin-bottom: 60px;
 }
 .searchAndFilter {
@@ -179,12 +182,21 @@
   font-size: 13px;
   color: #ffffff;
 }
+@media (max-width: 1040px) {
+  .searchAndFilter {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
 @media (max-width: 900px) {
   .container {
-    width: 80%;
+    width: 100%;
   }
 }
 @media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
   .searchAndFilter {
     flex-direction: column;
     gap: 20px;
@@ -192,7 +204,8 @@
 }
 @media (max-width: 600px) {
   .container {
-    width: 95%;
+    padding: 5px;
+    width: 100%;
   }
   .table th,
   .table td {

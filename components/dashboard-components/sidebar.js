@@ -7,6 +7,7 @@ const SideBar = ({ role }) => {
     const pathName = usePathname();
     const { userCount, propertyCount, subRequestCount, complaintCount } = useAdminContext();
 
+    console.log(pathName)
 
     const sections = [
         { key: "main", label: "الرئيسية", to: "/dashboard" },
@@ -22,7 +23,7 @@ const SideBar = ({ role }) => {
     return <div className={classes.sidebar}>
         <div>
             {sections.map((section) => {
-                const isActive = pathName === section.to;
+                const isActive = pathName === section.to || pathName === section.to.slice(0, section.to.indexOf("?"));
                 return (<Link
                     href={section.to}
                     key={section.key}

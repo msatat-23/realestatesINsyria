@@ -3,6 +3,7 @@
   margin-bottom: 100px;
   width: 70%;
   display: flex;
+  padding: 0 40px;
   flex-direction: column;
   gap: 20px;
   justify-content: flex-start;
@@ -14,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 .searchWrapper {
   position: relative;
@@ -179,18 +181,22 @@
   background-color: none;
   background: none;
 }
-@media (max-width: 940px) {
-  .container {
-    width: 80%;
-  }
+@media (max-width: 1040px) {
   .search_filter {
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+  }
+}
+@media (max-width: 940px) {
+  .container {
+    width: 100%;
+    align-items: center;
   }
 }
 @media (max-width: 768px) {
   .container {
-    width: 95%;
+    width: 100%;
+    padding: 10px;
   }
   .pagination_container {
     gap: 4px;
