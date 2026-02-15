@@ -1,17 +1,12 @@
 import classes from "./page.module.css";
 import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
 import SideBar from "@/components/dashboard-components/sidebar";
 import { redirect } from "next/navigation";
 
 
 
 const Dashboard = async () => {
-    const session = await auth();
-    const role = session?.user?.role;
-    if (role === "USER") {
-        redirect("/");
-    };
+
 
     const data = await prisma.$transaction([
         prisma.user.count({ where: { role: "USER" } }),
@@ -48,15 +43,13 @@ const Dashboard = async () => {
         { id: 14, title: "الشكاوي المقروءة", count: data[13] },
         { id: 15, title: "الشكاوي غير المقروءة", count: data[14] },
     ];
-    return <div className={classes.dashboard}>
-        <SideBar role={role} />
-        <div className={classes.statistics}>
-            {formattedData.map(card => <div key={card.id} className={classes.card}>
-                <h1 className={classes.title}>{card.title}</h1>
-                <p className={classes.count}>{card.count}</p>
-            </div>
-            )}
+    return <div className={classes.statistics}>
+        {formattedData.map(card => <div key={card.id} className={classes.card}>
+            <h1 className={classes.title}>{card.title}</h1>
+            <p className={classes.count}>{card.count}</p>
         </div>
+        )}
     </div>
+
 }
 export default Dashboard;   

@@ -152,7 +152,16 @@
   .user_info {
     width: 100%;
   }
+  .search_filter {
+    padding: 5px;
+    gap: 80px;
+  }
   .searchInput {
-    width: 95%;
+    width: 350px;
+    padding-left: 0;
+  }
+  .searchBtn {
+    top: 150%;
+    right: 10px;
   }
 }

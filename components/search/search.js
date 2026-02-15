@@ -55,8 +55,8 @@ const Search = () => {
                     dispatch(updateField({ field: 'property_status', value: "رهن" }));
                 }}>رهن</span>
             </div>
-            <div>
-                <form onSubmit={SubmissionHandler}>
+            <div className={classes.formWrapper}>
+                <form onSubmit={SubmissionHandler} className={classes.form}>
                     <div className={classes.searchWrapper}>
                         <input className={classes.input} type='search' placeholder='أدخل عنوان , مدينة , شارع , نوع عقار' value={reduxfilters.q || ''} onChange={(e) => {
                             dispatch(updateField({ field: 'q', value: e.target.value }));

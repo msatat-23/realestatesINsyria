@@ -100,3 +100,13 @@
 .addBtn:hover {
   background-color: #34495e;
 }
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+}
+@media (max-width: 400px) {
+  .container {
+    padding: 10px;
+  }
+}

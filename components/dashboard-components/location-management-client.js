@@ -54,8 +54,8 @@ const options = [
 
 const selectCustomStyles = {
     control: (base) => ({
-        ...base, margin: "10px",
-        width: "350px",
+        ...base, margin: "5px",
+        width: "320px",
         height: "58px",
         cursor: "pointer",
         padding: "10px",
