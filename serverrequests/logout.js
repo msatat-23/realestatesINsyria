@@ -1,13 +1,14 @@
 // app/actions/serverLogout.js
 "use server";
+import { signOut } from "@/auth";
+export async function logout() {
 
-import { cookies } from "next/headers";
-
-export async function serverClearSessionCookies() {
-
-    cookies().delete("authjs.session-token");
-    cookies().delete("__Secure-authjs.session-token");
-    cookies().delete("next-auth.csrf-token"); 
+    try {
+        const logout = await signOut();
+        console.log(logout)
+    } catch (e) {
+        console.log(e);
+    }
 
     return { ok: true };
 }

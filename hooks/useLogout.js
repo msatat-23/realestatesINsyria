@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetinfo } from "@/store/userSlice";
 import { useState } from "react";
+import { logout } from "@/serverrequests/logout";
 
 export default function useLogout() {
     const router = useRouter();
@@ -13,7 +14,9 @@ export default function useLogout() {
         try {
             setLoading(true);
 
-            const data = await signOut({ redirect: false });
+            const data = await logout();
+
+            console.log(logout)
 
             dispatch(resetinfo());
 
