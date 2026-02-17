@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetinfo } from "@/store/userSlice";
 import { useState } from "react";
-import { logout } from "@/serverrequests/logout";
 
 export default function useLogout() {
     const router = useRouter();
@@ -14,14 +13,12 @@ export default function useLogout() {
         try {
             setLoading(true);
 
-            const data = await logout();
-
-            console.log(logout)
+            await signOut({ redirect: true, callbackUrl: "/login" });
 
             dispatch(resetinfo());
 
-            router.replace("/login");
-            router.refresh();
+            // router.replace("/login");
+            // router.refresh();
 
             return { ok: true, message: "تم تسجيل الخروج بنجاح!" };
         } catch (err) {
