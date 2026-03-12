@@ -30,7 +30,8 @@ const SimilarProperties = async ({ id }) => {
             region: { select: { city: { select: { name: true } }, name: true } },
             subscription: true,
             createdAt: true
-        }
+        },
+        take: 6
     });
     return (<Fragment>
         {similar.length > 0 && <h1 className={classes.h1}>عقارات مشابهة</h1>}
